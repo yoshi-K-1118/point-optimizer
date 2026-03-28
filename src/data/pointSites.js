@@ -320,6 +320,8 @@ export const CREDIT_CARDS = [
   // ── イオン ──
   { id: 'aeon_card',        name: 'イオンカード',                  programId: 'waon',        onlineRate: 0.005, color: '#00a0e9', icon: '🐶' },
   { id: 'aeon_gold',        name: 'イオンゴールドカード',          programId: 'waon',        onlineRate: 0.005, color: '#1a6b8a', icon: '🐶' },
+  // ── JA ──
+  { id: 'ja_card',          name: 'JAカード',                      programId: 'waon',        onlineRate: 0.005, color: '#2e7d32', icon: '🌾' },
   // ── JCB ──
   { id: 'jcb_card_w',       name: 'JCBカードW',                   programId: 'oki_doki',    onlineRate: 0.010, color: '#003d7a', icon: '💙' },
   { id: 'jcb_gold',         name: 'JCBゴールド',                  programId: 'oki_doki',    onlineRate: 0.005, color: '#1a3a5c', icon: '💙' },
@@ -544,6 +546,16 @@ export const CREDIT_CARDS_DETAIL = [
     features: ['国内外空港ラウンジ無料', 'イオンラウンジ利用可能', 'ゴールドカード優待サービス'],
     bestFor: ['イオンヘビーユーザー', '空港ラウンジ', '招待制ゴールド'],
     tags: ['ゴールド', '招待制', '年会費無料'],
+    applyUrl: '#',
+  },
+  // ── JA ──
+  {
+    id: 'ja_card',
+    annualFee: 0,
+    annualFeeNote: '永年無料（条件あり）',
+    features: ['イオングループでWAONポイント2倍', 'JAバンク口座との連携でポイント優遇', 'WAON電子マネーチャージ対応'],
+    bestFor: ['イオン・イオンモール', 'JAバンクユーザー', 'WAON利用'],
+    tags: ['年会費無料', 'WAON連携', 'JA組合員向け'],
     applyUrl: '#',
   },
   // ── JCB ──
