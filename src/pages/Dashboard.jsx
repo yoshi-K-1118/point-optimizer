@@ -4,7 +4,7 @@ import {
   PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
   LineChart, Line, XAxis, YAxis, CartesianGrid,
 } from 'recharts';
-import { AlertTriangle, TrendingUp, Star, Clock, ArrowRight, Wallet, Calculator } from 'lucide-react';
+import { AlertTriangle, TrendingUp, Star, Clock, ArrowRight, Wallet, Calculator, Monitor, HardDrive, LogIn } from 'lucide-react';
 import { POINT_PROGRAMS, CAMPAIGNS } from '../data/pointPrograms';
 
 /* ── Sub-components ── */
@@ -158,6 +158,37 @@ export default function Dashboard({ points }) {
         <StatCard title="利用中プログラム"   value={`${activeProgramCount} 種`}              sub={`全 ${POINT_PROGRAMS.length} 中`} icon={Star}      accentColor="#10b981" onClick={() => navigate('/points')} />
         <StatCard title="期限間近"           value={`${expiringCount} 件`}                  sub="30日以内"              icon={Clock}      accentColor={expiringCount > 0 ? '#f59e0b' : '#10b981'} onClick={() => navigate('/alerts')} />
         <StatCard title="開催中キャンペーン" value={`${upcomingCampaigns.length} 件`}        sub="お得な特典あり"        icon={AlertTriangle} accentColor="#ef4444" />
+      </div>
+
+      {/* Data storage notice */}
+      <div className="rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3.5">
+        <p className="text-xs font-semibold text-blue-700 mb-2 flex items-center gap-1.5">
+          <HardDrive size={13} />
+          このアプリについて
+        </p>
+        <div className="grid sm:grid-cols-3 gap-2.5">
+          <div className="flex items-start gap-2">
+            <Monitor size={14} className="text-blue-500 mt-0.5 flex-shrink-0" />
+            <div>
+              <p className="text-xs font-semibold text-blue-800">1端末・1ブラウザで利用</p>
+              <p className="text-xs text-blue-600 mt-0.5">スマホ・PCなど端末ごとにデータは独立しています。別の端末では同じデータは表示されません。</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-2">
+            <HardDrive size={14} className="text-blue-500 mt-0.5 flex-shrink-0" />
+            <div>
+              <p className="text-xs font-semibold text-blue-800">ローカルに保存</p>
+              <p className="text-xs text-blue-600 mt-0.5">データはこのブラウザのローカルストレージに保存されます。サーバーには送信されません。</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-2">
+            <LogIn size={14} className="text-blue-500 mt-0.5 flex-shrink-0" />
+            <div>
+              <p className="text-xs font-semibold text-blue-800">ログイン不要</p>
+              <p className="text-xs text-blue-600 mt-0.5">アカウント登録なしですぐ使えます。ブラウザのキャッシュ削除でデータが消えるためご注意ください。</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Quick actions */}
