@@ -32,7 +32,7 @@ function StatCard({ title, value, sub, icon: Icon, accentColor, onClick }) {
   );
 }
 
-function QuickAction({ label, sub, to, icon: Icon, from, to: gradTo }) {
+function QuickAction({ label, sub, to, icon: Icon, from, gradTo }) {
   const navigate = useNavigate();
   return (
     <button
@@ -162,10 +162,10 @@ export default function Dashboard({ points }) {
 
       {/* Quick actions */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <QuickAction label="ポイントを更新" sub="残高を入力"   to="/points"    icon={Wallet}       from="#2563eb" to="#3b82f6" />
-        <QuickAction label="交換戦略を見る" sub="おすすめルート" to="/strategy" icon={TrendingUp}   from="#059669" to="#10b981" />
-        <QuickAction label="期限を確認"     sub="アラート一覧"  to="/alerts"   icon={Clock}        from="#d97706" to="#f59e0b" />
-        <QuickAction label="シミュレート"   sub="将来を予測"    to="/simulator" icon={Calculator}  from="#7c3aed" to="#8b5cf6" />
+        <QuickAction label="ポイントを更新" sub="残高を入力"    to="/points"    icon={Wallet}      from="#2563eb" gradTo="#3b82f6" />
+        <QuickAction label="交換戦略を見る" sub="おすすめルート" to="/strategy" icon={TrendingUp}   from="#059669" gradTo="#10b981" />
+        <QuickAction label="期限を確認"     sub="アラート一覧"  to="/alerts"   icon={Clock}        from="#d97706" gradTo="#f59e0b" />
+        <QuickAction label="シミュレート"   sub="将来を予測"    to="/simulator" icon={Calculator}  from="#7c3aed" gradTo="#8b5cf6" />
       </div>
 
       {/* Charts row */}
