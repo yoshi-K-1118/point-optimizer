@@ -7,6 +7,7 @@ import Alerts from './pages/Alerts';
 import Simulator from './pages/Simulator';
 import HowToUse from './pages/HowToUse';
 import PointSites from './pages/PointSites';
+import CreditCards from './pages/CreditCards';
 import { usePoints } from './hooks/usePoints';
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/alerts" element={<Alerts points={points} />} />
         <Route path="/simulator" element={<Simulator />} />
         <Route path="/pointsites" element={<PointSites />} />
+        <Route path="/cards" element={<CreditCards />} />
         <Route path="/guide"     element={<HowToUse />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
