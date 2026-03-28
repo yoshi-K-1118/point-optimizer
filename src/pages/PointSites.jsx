@@ -9,6 +9,14 @@ const TABS = [
   { id: 'calc',     label: '積算計算機',     icon: Calculator },
 ];
 
+function RateDisclaimer() {
+  return (
+    <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-4">
+      ⚠️ 掲載している還元率はあくまで参考値です。各ポイントサイトの還元率は随時変更されます。最新情報は各サービスの公式サイトでご確認ください。
+    </p>
+  );
+}
+
 // ── Tab 1: ポイントサイト一覧 ──────────────────────────────────────────────
 
 function ProgramPill({ programId }) {
@@ -103,9 +111,10 @@ function SiteCard({ site }) {
 function SitesTab() {
   return (
     <div>
-      <p className="text-sm text-slate-500 mb-4">
+      <p className="text-sm text-slate-500 mb-3">
         各ポイントサイトの特徴・交換先・対応ショップをまとめました。
       </p>
+      <RateDisclaimer />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {POINT_SITES.map((site) => (
           <SiteCard key={site.id} site={site} />
@@ -145,6 +154,8 @@ function ShopsTab() {
   const best = ranked[0];
 
   return (
+    <div>
+      <RateDisclaimer />
     <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
       {/* Left: shop selector */}
       <div className="md:col-span-2 space-y-3">
@@ -268,6 +279,7 @@ function ShopsTab() {
         </div>
       </div>
     </div>
+    </div>
   );
 }
 
@@ -309,9 +321,10 @@ function StackCalcTab() {
 
   return (
     <div className="max-w-2xl">
-      <p className="text-sm text-slate-500 mb-5">
+      <p className="text-sm text-slate-500 mb-3">
         ポイントサイト＋クレジットカード＋店舗ポイントを組み合わせた実質還元率を計算します。
       </p>
+      <RateDisclaimer />
 
       {/* Inputs */}
       <div className="card p-4 space-y-4 mb-4">
