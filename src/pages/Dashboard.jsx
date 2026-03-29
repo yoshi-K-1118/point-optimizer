@@ -182,7 +182,7 @@ export default function Dashboard({ points }) {
         <StatCard title="総合価値"           value={`¥${totalJpy.toLocaleString()}`}        sub="円換算合計"            icon={TrendingUp} accentColor="#2563eb" onClick={() => navigate('/strategy')} />
         <StatCard title="利用中プログラム"   value={`${activeProgramCount} 種`}              sub={`全 ${POINT_PROGRAMS.length} 中`} icon={Star}      accentColor="#10b981" onClick={() => navigate('/points')} />
         <StatCard title="期限間近"           value={`${expiringCount} 件`}                  sub="30日以内"              icon={Clock}      accentColor={expiringCount > 0 ? '#f59e0b' : '#10b981'} onClick={() => navigate('/alerts')} />
-        <StatCard title="開催中キャンペーン" value={`${upcomingCampaigns.length} 件`}        sub="お得な特典あり"        icon={AlertTriangle} accentColor="#ef4444" />
+        <StatCard title="開催中キャンペーン" value={`${upcomingCampaigns.length} 件`}        sub="お得な特典あり"        icon={AlertTriangle} accentColor="#ef4444" onClick={() => navigate('/campaigns')} />
       </div>
 
       {/* Data storage notice */}
@@ -326,14 +326,19 @@ export default function Dashboard({ points }) {
       <div className="grid md:grid-cols-2 gap-4">
         {/* Campaigns */}
         <div className="card p-5">
-          <p className="text-sm font-semibold text-gray-800 mb-4">開催中キャンペーン</p>
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm font-semibold text-gray-800">開催中キャンペーン</p>
+            <button onClick={() => navigate('/campaigns')} className="btn-ghost text-xs">
+              全て見る <ArrowRight size={12} />
+            </button>
+          </div>
           {upcomingCampaigns.length > 0 ? (
             <div className="space-y-2.5">
               {upcomingCampaigns.map((c) => {
                 const prog = POINT_PROGRAMS.find((p) => p.id === c.programId);
                 const daysLeft = Math.ceil((new Date(c.endDate) - new Date()) / (1000 * 60 * 60 * 24));
                 return (
-                  <div key={c.id} className="flex gap-3 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
+                  <button key={c.id} onClick={() => navigate('/campaigns')} className="flex gap-3 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors w-full text-left">
                     <span className="text-xl flex-shrink-0">{prog?.icon}</span>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
@@ -345,7 +350,7 @@ export default function Dashboard({ points }) {
                       <p className="text-xs text-gray-400 mt-0.5 truncate">{c.description}</p>
                       <p className="text-xs text-amber-500 font-medium mt-1">残り {daysLeft} 日</p>
                     </div>
-                  </div>
+                  </button>
                 );
               })}
             </div>

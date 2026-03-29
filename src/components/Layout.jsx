@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  LayoutDashboard, Wallet, TrendingUp, Bell, Calculator, Menu, X, BookOpen, Globe, CreditCard, BarChart2, ShieldCheck, FileText, Mail, Sun, Moon,
+  LayoutDashboard, Wallet, TrendingUp, Bell, Calculator, Menu, X, BookOpen, Globe, CreditCard, BarChart2, ShieldCheck, FileText, Mail, Sun, Moon, Gift,
 } from 'lucide-react';
 import { useDarkMode } from '../hooks/useDarkMode';
 
@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { to: '/strategy',  label: '最適化戦略',     icon: TrendingUp },
   { to: '/alerts',    label: '期限アラート',   icon: Bell },
   { to: '/simulator',  label: 'シミュレーター',    icon: Calculator },
+  { to: '/campaigns',  label: 'キャンペーン',       icon: Gift },
   { to: '/pointsites', label: 'ポイントサイト活用', icon: Globe },
   { to: '/cards',      label: 'クレジットカード',   icon: CreditCard },
   { to: '/invest',     label: 'ポイント運用',       icon: BarChart2 },

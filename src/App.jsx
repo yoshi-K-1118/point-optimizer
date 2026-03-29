@@ -13,6 +13,7 @@ import Disclaimer from './pages/Disclaimer';
 import Contact from './pages/Contact';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
+import Campaigns from './pages/Campaigns';
 import NotFound from './pages/NotFound';
 import CookieBanner from './components/CookieBanner';
 import { usePoints } from './hooks/usePoints';
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/points" element={<PointsManager points={points} onUpdateBalance={updateBalance} />} />
           <Route path="/strategy" element={<Strategy points={points} />} />
           <Route path="/alerts" element={<Alerts points={points} />} />
+          <Route path="/campaigns" element={<Campaigns />} />
           <Route path="/simulator" element={<Simulator />} />
           <Route path="/pointsites" element={<PointSites />} />
           <Route path="/cards" element={<CreditCards />} />
