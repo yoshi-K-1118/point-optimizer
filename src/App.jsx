@@ -9,6 +9,8 @@ import HowToUse from './pages/HowToUse';
 import PointSites from './pages/PointSites';
 import CreditCards from './pages/CreditCards';
 import PointInvest from './pages/PointInvest';
+import Disclaimer from './pages/Disclaimer';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import { usePoints } from './hooks/usePoints';
 
 export default function App() {
@@ -26,6 +28,8 @@ export default function App() {
         <Route path="/pointsites" element={<PointSites />} />
         <Route path="/cards" element={<CreditCards />} />
         <Route path="/invest" element={<PointInvest />} />
+        <Route path="/disclaimer" element={<Disclaimer />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/guide"     element={<HowToUse />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

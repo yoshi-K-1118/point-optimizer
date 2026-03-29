@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  LayoutDashboard, Wallet, TrendingUp, Bell, Calculator, Menu, X, BookOpen, Globe, CreditCard, BarChart2,
+  LayoutDashboard, Wallet, TrendingUp, Bell, Calculator, Menu, X, BookOpen, Globe, CreditCard, BarChart2, ShieldCheck, FileText,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -13,6 +13,11 @@ const NAV_ITEMS = [
   { to: '/pointsites', label: 'ポイントサイト活用', icon: Globe },
   { to: '/cards',      label: 'クレジットカード',   icon: CreditCard },
   { to: '/invest',     label: 'ポイント運用',       icon: BarChart2 },
+];
+
+const LEGAL_ITEMS = [
+  { to: '/disclaimer', label: '免責事項',           icon: FileText },
+  { to: '/privacy',    label: 'プライバシーポリシー', icon: ShieldCheck },
 ];
 
 const HELP_ITEMS = [
@@ -63,6 +68,31 @@ export default function Layout({ children }) {
             </NavLink>
           ))}
         </nav>
+
+        {/* Legal nav */}
+        <div className="px-3 pb-1 border-t border-slate-700/50 pt-3 space-y-0.5">
+          <p className="section-title px-3 pb-2 text-slate-500">法的情報</p>
+          {LEGAL_ITEMS.map(({ to, label, icon: Icon }) => (
+            <NavLink
+              key={to}
+              to={to}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group ${
+                  isActive
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/30'
+                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                }`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  <Icon size={16} className={isActive ? 'text-white' : 'text-slate-500 group-hover:text-white transition-colors'} />
+                  {label}
+                </>
+              )}
+            </NavLink>
+          ))}
+        </div>
 
         {/* Help nav */}
         <div className="px-3 pb-3 border-t border-slate-700/50 pt-3 space-y-0.5">
@@ -118,7 +148,7 @@ export default function Layout({ children }) {
         {/* Mobile Drawer */}
         {menuOpen && (
           <div className="md:hidden bg-slate-900 px-3 py-2 space-y-0.5 shadow-md z-10">
-            {[...NAV_ITEMS, ...HELP_ITEMS].map(({ to, label, icon: Icon }) => (
+            {[...NAV_ITEMS, ...LEGAL_ITEMS, ...HELP_ITEMS].map(({ to, label, icon: Icon }) => (
               <NavLink
                 key={to}
                 to={to}
