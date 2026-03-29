@@ -10,7 +10,7 @@ const CATEGORIES = [
 ];
 
 // Formspree のフォームID（formspree.io でフォームを作成後に取得したIDに置き換えてください）
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mqegpqry';
 
 export default function Contact() {
   const [form, setForm] = useState({
