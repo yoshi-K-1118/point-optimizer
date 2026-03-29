@@ -4,11 +4,36 @@
   font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --color-bg:           #f1f5f9;
+  --color-card-bg:      #ffffff;
+  --color-card-border:  rgb(243 244 246);
+  --color-card-shadow:  0 1px 2px 0 rgb(0 0 0 / 0.04);
+  --color-text-primary: #0f172a;
+  --color-text-muted:   #94a3b8;
+  --color-input-bg:     #f9fafb;
+  --color-input-border: #e5e7eb;
+  --color-table-hover:  #f8fafc;
+  --color-badge-bg:     #f3f4f6;
+}
+
+html.dark {
+  --color-bg:           #0f172a;
+  --color-card-bg:      #1e293b;
+  --color-card-border:  rgb(51 65 85);
+  --color-card-shadow:  0 1px 2px 0 rgb(0 0 0 / 0.2);
+  --color-text-primary: #f1f5f9;
+  --color-text-muted:   #64748b;
+  --color-input-bg:     #0f172a;
+  --color-input-border: #334155;
+  --color-table-hover:  #1e293b;
+  --color-badge-bg:     #334155;
 }
 
 body {
   margin: 0;
-  background: #f1f5f9;
+  background: var(--color-bg);
+  transition: background 200ms;
 }
 
 #root {
@@ -18,10 +43,11 @@ body {
 /* ── Shared component styles ── */
 
 .card {
-  background: white;
+  background: var(--color-card-bg);
   border-radius: 1rem;
-  border: 1px solid rgb(243 244 246);
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+  border: 1px solid var(--color-card-border);
+  box-shadow: var(--color-card-shadow);
+  transition: background 200ms, border-color 200ms;
 }
 
 .btn-primary {
@@ -75,8 +101,9 @@ body {
 
 .input {
   width: 100%;
-  border: 1px solid #e5e7eb;
-  background: #f9fafb;
+  border: 1px solid var(--color-input-border);
+  background: var(--color-input-bg);
+  color: var(--color-text-primary);
   border-radius: 0.75rem;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
@@ -86,7 +113,7 @@ body {
 }
 .input:focus {
   border-color: #93c5fd;
-  background: white;
+  background: var(--color-card-bg);
   box-shadow: 0 0 0 3px rgb(59 130 246 / 0.12);
 }
 .input::placeholder { color: #d1d5db; }
@@ -112,14 +139,14 @@ body {
 .page-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--color-text-primary);
   letter-spacing: -0.025em;
   line-height: 1.2;
 }
 
 .page-sub {
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: var(--color-text-muted);
   margin-top: 0.125rem;
 }
 

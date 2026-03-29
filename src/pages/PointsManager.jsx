@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Edit3, Check, X, ArrowUpDown, SlidersHorizontal } from 'lucide-react';
+import { Edit3, Check, X, ArrowUpDown, SlidersHorizontal, Download, Upload } from 'lucide-react';
 import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts';
 import { POINT_PROGRAMS } from '../data/pointPrograms';
 
@@ -213,6 +213,62 @@ export default function PointsManager({ points, onUpdateBalance }) {
           </p>
         </div>
         <div className="bg-gradient-to-r from-blue-400 to-indigo-400 h-1" />
+      </div>
+
+      {/* Export / Import */}
+      <div className="flex items-center gap-2 flex-wrap">
+        <button
+          onClick={() => {
+            const data = JSON.stringify(points, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `point-optimizer-backup-${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+          }}
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-white border border-gray-100 rounded-xl shadow-sm text-gray-600 hover:bg-gray-50 transition-colors"
+        >
+          <Download size={13} />
+          データをエクスポート
+        </button>
+        <label className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-white border border-gray-100 rounded-xl shadow-sm text-gray-600 hover:bg-gray-50 transition-colors cursor-pointer">
+          <Upload size={13} />
+          データをインポート
+          <input
+            type="file"
+            accept=".json"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              const reader = new FileReader();
+              reader.onload = (ev) => {
+                try {
+                  const parsed = JSON.parse(ev.target.result);
+                  if (Array.isArray(parsed) && parsed[0]?.programId !== undefined) {
+                    parsed.forEach((p) => {
+                      if (p.programId && p.balance !== undefined) {
+                        onUpdateBalance(p.programId, p.balance, p.expiringPoints ?? 0, p.expiryDate ?? null);
+                      }
+                    });
+                    alert('インポートが完了しました');
+                  } else {
+                    alert('ファイルの形式が正しくありません');
+                  }
+                } catch {
+                  alert('ファイルの読み込みに失敗しました');
+                }
+              };
+              reader.readAsText(file);
+              e.target.value = '';
+            }}
+          />
+        </label>
+        <p className="text-xs text-slate-400 ml-1">
+          ※ キャッシュ削除前にバックアップを推奨
+        </p>
       </div>
 
       {/* Toolbar */}

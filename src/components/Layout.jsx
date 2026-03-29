@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  LayoutDashboard, Wallet, TrendingUp, Bell, Calculator, Menu, X, BookOpen, Globe, CreditCard, BarChart2, ShieldCheck, FileText, Mail,
+  LayoutDashboard, Wallet, TrendingUp, Bell, Calculator, Menu, X, BookOpen, Globe, CreditCard, BarChart2, ShieldCheck, FileText, Mail, Sun, Moon,
 } from 'lucide-react';
+import { useDarkMode } from '../hooks/useDarkMode';
 
 const NAV_ITEMS = [
   { to: '/dashboard',  label: 'ダッシュボード', icon: LayoutDashboard },
@@ -16,8 +17,9 @@ const NAV_ITEMS = [
 ];
 
 const LEGAL_ITEMS = [
-  { to: '/disclaimer', label: '免責事項',           icon: FileText },
-  { to: '/privacy',    label: 'プライバシーポリシー', icon: ShieldCheck },
+  { to: '/terms',      label: '利用規約',             icon: FileText },
+  { to: '/disclaimer', label: '免責事項',              icon: FileText },
+  { to: '/privacy',    label: 'プライバシーポリシー',  icon: ShieldCheck },
 ];
 
 const HELP_ITEMS = [
@@ -27,6 +29,7 @@ const HELP_ITEMS = [
 
 export default function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dark, setDark] = useDarkMode();
 
   return (
     <div className="min-h-screen bg-slate-100 flex">
@@ -120,9 +123,16 @@ export default function Layout({ children }) {
           ))}
         </div>
 
-        {/* Footer */}
-        <div className="px-5 py-3 border-t border-slate-700/50">
-          <p className="text-slate-500 text-xs text-center">データはローカルに保存</p>
+        {/* Dark mode toggle + Footer */}
+        <div className="px-5 py-3 border-t border-slate-700/50 flex items-center justify-between">
+          <p className="text-slate-500 text-xs">データはローカルに保存</p>
+          <button
+            onClick={() => setDark(!dark)}
+            className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+            title={dark ? 'ライトモード' : 'ダークモード'}
+          >
+            {dark ? <Sun size={15} /> : <Moon size={15} />}
+          </button>
         </div>
       </aside>
 

@@ -4,7 +4,7 @@ import {
   PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
   LineChart, Line, XAxis, YAxis, CartesianGrid,
 } from 'recharts';
-import { AlertTriangle, TrendingUp, Star, Clock, ArrowRight, Wallet, Calculator, Monitor, HardDrive, LogIn } from 'lucide-react';
+import { AlertTriangle, TrendingUp, Star, Clock, ArrowRight, Wallet, Calculator, Monitor, HardDrive, LogIn, Share2 } from 'lucide-react';
 import { POINT_PROGRAMS, CAMPAIGNS } from '../data/pointPrograms';
 
 /* ── Sub-components ── */
@@ -151,6 +151,31 @@ export default function Dashboard({ points }) {
         </div>
         <div className="bg-gradient-to-r from-blue-600 to-indigo-500 h-1" />
       </div>
+
+      {/* SNS Share */}
+      {totalJpy > 0 && (
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-xs text-slate-500 font-medium">シェアする:</span>
+          <a
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`ポイント資産が¥${totalJpy.toLocaleString()}に達しました！#ポイント活用 #ポイ活`)}&url=${encodeURIComponent('https://point-optimizer-yoshi.vercel.app')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-black text-white rounded-xl hover:opacity-80 transition-opacity"
+          >
+            <Share2 size={12} />
+            X (Twitter)
+          </a>
+          <a
+            href={`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent('https://point-optimizer-yoshi.vercel.app')}&text=${encodeURIComponent(`ポイント資産¥${totalJpy.toLocaleString()}を管理中！ポイント最適化アプリ`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-[#06C755] text-white rounded-xl hover:opacity-80 transition-opacity"
+          >
+            <Share2 size={12} />
+            LINE
+          </a>
+        </div>
+      )}
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">

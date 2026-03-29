@@ -12,29 +12,36 @@ import PointInvest from './pages/PointInvest';
 import Disclaimer from './pages/Disclaimer';
 import Contact from './pages/Contact';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import NotFound from './pages/NotFound';
+import CookieBanner from './components/CookieBanner';
 import { usePoints } from './hooks/usePoints';
 
 export default function App() {
   const { points, updateBalance } = usePoints();
 
   return (
-    <Layout>
-      <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/dashboard" element={<Dashboard points={points} />} />
-        <Route path="/points" element={<PointsManager points={points} onUpdateBalance={updateBalance} />} />
-        <Route path="/strategy" element={<Strategy points={points} />} />
-        <Route path="/alerts" element={<Alerts points={points} />} />
-        <Route path="/simulator" element={<Simulator />} />
-        <Route path="/pointsites" element={<PointSites />} />
-        <Route path="/cards" element={<CreditCards />} />
-        <Route path="/invest" element={<PointInvest />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/disclaimer" element={<Disclaimer />} />
-        <Route path="/privacy" element={<PrivacyPolicy />} />
-        <Route path="/guide"     element={<HowToUse />} />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
-      </Routes>
-    </Layout>
+    <>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<Dashboard points={points} />} />
+          <Route path="/points" element={<PointsManager points={points} onUpdateBalance={updateBalance} />} />
+          <Route path="/strategy" element={<Strategy points={points} />} />
+          <Route path="/alerts" element={<Alerts points={points} />} />
+          <Route path="/simulator" element={<Simulator />} />
+          <Route path="/pointsites" element={<PointSites />} />
+          <Route path="/cards" element={<CreditCards />} />
+          <Route path="/invest" element={<PointInvest />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/guide" element={<HowToUse />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Layout>
+      <CookieBanner />
+    </>
   );
 }

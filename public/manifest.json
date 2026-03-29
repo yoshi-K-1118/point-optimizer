@@ -1,0 +1,13 @@
+{
+  "name": "ポイント最適化",
+  "short_name": "ポイント最適化",
+  "description": "ポイント管理・交換戦略・ポイントサイト活用を一括サポート",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "lang": "ja",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
