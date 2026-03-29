@@ -8,6 +8,7 @@ import Simulator from './pages/Simulator';
 import HowToUse from './pages/HowToUse';
 import PointSites from './pages/PointSites';
 import CreditCards from './pages/CreditCards';
+import PointInvest from './pages/PointInvest';
 import { usePoints } from './hooks/usePoints';
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/simulator" element={<Simulator />} />
         <Route path="/pointsites" element={<PointSites />} />
         <Route path="/cards" element={<CreditCards />} />
+        <Route path="/invest" element={<PointInvest />} />
         <Route path="/guide"     element={<HowToUse />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

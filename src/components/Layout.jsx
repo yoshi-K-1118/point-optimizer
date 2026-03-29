@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  LayoutDashboard, Wallet, TrendingUp, Bell, Calculator, Menu, X, BookOpen, Globe, CreditCard,
+  LayoutDashboard, Wallet, TrendingUp, Bell, Calculator, Menu, X, BookOpen, Globe, CreditCard, BarChart2,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { to: '/simulator',  label: 'シミュレーター',    icon: Calculator },
   { to: '/pointsites', label: 'ポイントサイト活用', icon: Globe },
   { to: '/cards',      label: 'クレジットカード',   icon: CreditCard },
+  { to: '/invest',     label: 'ポイント運用',       icon: BarChart2 },
 ];
 
 const HELP_ITEMS = [
