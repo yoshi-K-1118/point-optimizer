@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  LayoutDashboard, Wallet, TrendingUp, Bell, Calculator, Menu, X, BookOpen, Globe, CreditCard, BarChart2, ShieldCheck, FileText,
+  LayoutDashboard, Wallet, TrendingUp, Bell, Calculator, Menu, X, BookOpen, Globe, CreditCard, BarChart2, ShieldCheck, FileText, Mail,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -21,7 +21,8 @@ const LEGAL_ITEMS = [
 ];
 
 const HELP_ITEMS = [
-  { to: '/guide', label: '使い方ガイド', icon: BookOpen },
+  { to: '/guide',   label: '使い方ガイド', icon: BookOpen },
+  { to: '/contact', label: 'お問い合わせ', icon: Mail },
 ];
 
 export default function Layout({ children }) {
