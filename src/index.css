@@ -123,6 +123,14 @@ body {
   margin-top: 0.125rem;
 }
 
+/* Pointer cursor for all interactive elements */
+button,
+select,
+a,
+[role="button"] {
+  cursor: pointer;
+}
+
 /* Smooth scrollbar */
 * {
   scrollbar-width: thin;
