@@ -21,7 +21,7 @@ const INVEST_PROGRAMS = [
       'いつでも運用停止・ポイント引き出し可能',
       '運用益はポイントで受け取れる',
     ],
-    url: 'https://pointsun.rakuten.co.jp/',
+    url: 'https://point.rakuten.co.jp/',
   },
   {
     id: 'dpoint',
@@ -44,7 +44,7 @@ const INVEST_PROGRAMS = [
       'ポイントが増えたらdポイントとして引き出せる',
       '100ポイントから手軽にスタート可能',
     ],
-    url: 'https://id.smt.docomo.ne.jp/',
+    url: 'https://dpoint.docomo.ne.jp/index.html',
   },
   {
     id: 'ponta',
@@ -65,7 +65,7 @@ const INVEST_PROGRAMS = [
       '運用中もPontaポイントとして利用可能',
       'auカブコム証券と連携した本格運用も可能',
     ],
-    url: 'https://pointsun.auone.jp/',
+    url: 'https://point.recruit.co.jp/point/',
   },
   {
     id: 'vpoint',
@@ -85,7 +85,7 @@ const INVEST_PROGRAMS = [
       'SBI証券の全投資信託ラインナップに対応',
       '現金と組み合わせてポイントを足し算できる',
     ],
-    url: 'https://www.smbc-card.com/mem/service/vpoint/toushi/',
+    url: 'https://tsite.jp/',
   },
   {
     id: 'paypay',
@@ -108,7 +108,7 @@ const INVEST_PROGRAMS = [
       '1ポイントから運用可能でハードルが低い',
       '運用益はPayPayポイントとして受け取れる',
     ],
-    url: 'https://paypay.ne.jp/guide/point-investment/',
+    url: 'https://paypay.ne.jp/point/',
   },
 ];
 
