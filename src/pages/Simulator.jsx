@@ -160,15 +160,16 @@ export default function Simulator() {
   const bestCombos = useMemo(() =>
     SPENDING_CATEGORIES.map(cat => {
       let best = { rate: 0, payment: PAYMENT_OPTIONS[0], loyalty: LOYALTY_OPTIONS[0], site: POINTSITE_OPTIONS[0] };
+      const loyaltyCheck = cat.id === 'online' ? [LOYALTY_OPTIONS[0]] : LOYALTY_OPTIONS;
+      const siteCheck = cat.id === 'online' ? POINTSITE_OPTIONS : [POINTSITE_OPTIONS[0]];
       PAYMENT_OPTIONS.forEach(pay =>
-        LOYALTY_OPTIONS.forEach(loy => {
-          const siteCheck = cat.id === 'online' ? POINTSITE_OPTIONS : [POINTSITE_OPTIONS[0]];
+        loyaltyCheck.forEach(loy =>
           siteCheck.forEach(site => {
             const layers = buildLayers(cat.id, { payment: pay.id, loyalty: loy.id, site: site.id });
             const rate = layers.reduce((s, l) => s + l.rate, 0);
             if (rate > best.rate) best = { rate, payment: pay, loyalty: loy, site, layers };
-          });
-        })
+          })
+        )
       );
       return { cat, ...best };
     }),
@@ -191,6 +192,12 @@ export default function Simulator() {
       <div>
         <h2 className="page-title">シミュレーター</h2>
         <p className="page-sub">支払い方法の組み合わせで2重・3重取りを計算します</p>
+      </div>
+
+      {/* Disclaimer */}
+      <div className="rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3 text-xs text-amber-700">
+        <span className="font-semibold">※ 参考情報について：</span>
+        表示される還元率・獲得ポイント・円換算はあくまで参考値です。実際の還元率はご利用のカード・サービス・店舗・キャンペーンにより異なります。正確な情報は各ポイントプログラム・カード会社の公式サイトでご確認ください。
       </div>
 
       {/* Presets */}
@@ -274,17 +281,19 @@ export default function Simulator() {
                   </select>
                 </div>
 
-                {/* Layer 2: ポイントカード提示 */}
-                <div>
-                  <p className="text-[10px] text-gray-400 font-semibold mb-1">🎫 ポイントカード提示</p>
-                  <select value={stacks[cat.id].loyalty}
-                    onChange={e => updateStack(cat.id, 'loyalty', e.target.value)}
-                    className="input text-xs py-1.5">
-                    {LOYALTY_OPTIONS.map(o => (
-                      <option key={o.id} value={o.id}>{o.label}</option>
-                    ))}
-                  </select>
-                </div>
+                {/* Layer 2: ポイントカード提示 (ネット通販を除く) */}
+                {cat.id !== 'online' && (
+                  <div>
+                    <p className="text-[10px] text-gray-400 font-semibold mb-1">🎫 ポイントカード提示</p>
+                    <select value={stacks[cat.id].loyalty}
+                      onChange={e => updateStack(cat.id, 'loyalty', e.target.value)}
+                      className="input text-xs py-1.5">
+                      {LOYALTY_OPTIONS.map(o => (
+                        <option key={o.id} value={o.id}>{o.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
 
                 {/* Layer 3: ポイントサイト (online only) */}
                 {cat.id === 'online' && (
