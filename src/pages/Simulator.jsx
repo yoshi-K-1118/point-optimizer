@@ -6,32 +6,95 @@ import {
 import { RotateCcw, BookmarkPlus, BarChart2, TrendingUp } from 'lucide-react';
 import { POINT_PROGRAMS } from '../data/pointPrograms';
 
+/* ── カテゴリ定義 ── */
 const SPENDING_CATEGORIES = [
-  { id: 'convenience', label: 'コンビニ',  icon: '🏪', monthlyDefault: 8000 },
-  { id: 'supermarket', label: 'スーパー',  icon: '🛒', monthlyDefault: 30000 },
-  { id: 'restaurant',  label: '飲食店',    icon: '🍽️', monthlyDefault: 20000 },
-  { id: 'online',      label: 'ネット通販',icon: '💻', monthlyDefault: 15000 },
-  { id: 'travel',      label: '旅行・交通',icon: '🚅', monthlyDefault: 10000 },
-  { id: 'gas',         label: 'ガソリン',  icon: '⛽', monthlyDefault: 8000 },
-  { id: 'utility',     label: '公共料金',  icon: '💡', monthlyDefault: 20000 },
+  { id: 'convenience', label: 'コンビニ',    icon: '🏪', monthlyDefault: 8000 },
+  { id: 'supermarket', label: 'スーパー',    icon: '🛒', monthlyDefault: 30000 },
+  { id: 'restaurant',  label: '飲食店',      icon: '🍽️', monthlyDefault: 20000 },
+  { id: 'online',      label: 'ネット通販',  icon: '💻', monthlyDefault: 15000 },
+  { id: 'travel',      label: '旅行・交通',  icon: '🚅', monthlyDefault: 10000 },
+  { id: 'gas',         label: 'ガソリン',    icon: '⛽', monthlyDefault: 8000 },
+  { id: 'utility',     label: '公共料金',    icon: '💡', monthlyDefault: 20000 },
 ];
 
-const PROGRAM_RATES = {
-  rakuten: { convenience: 0.01, supermarket: 0.01, restaurant: 0.01, online: 0.03, travel: 0.01, gas: 0.01, utility: 0.01 },
-  vpoint:  { convenience: 0.05, supermarket: 0.01, restaurant: 0.05, online: 0.01, travel: 0.01, gas: 0.01, utility: 0.01 },
-  dpoint:  { convenience: 0.05, supermarket: 0.01, restaurant: 0.05, online: 0.01, travel: 0.01, gas: 0.01, utility: 0.02 },
-  ponta:   { convenience: 0.01, supermarket: 0.01, restaurant: 0.01, online: 0.01, travel: 0.01, gas: 0.02, utility: 0.01 },
-  paypay:  { convenience: 0.05, supermarket: 0.01, restaurant: 0.05, online: 0.01, travel: 0.01, gas: 0.01, utility: 0.01 },
-  waon:    { convenience: 0.005,supermarket: 0.01, restaurant: 0.005,online: 0.005,travel: 0.005,gas: 0.005,utility: 0.005 },
-  nanaco:  { convenience: 0.01, supermarket: 0.005,restaurant: 0.005,online: 0.005,travel: 0.005,gas: 0.005,utility: 0.005 },
+/* ── 決済手段定義 ── */
+const PAYMENT_METHODS = [
+  { id: 'credit',     label: 'クレカ払い',        icon: '💳' },
+  { id: 'smartphone', label: 'スマホ決済',          icon: '📱' },
+  { id: 'cashless',   label: 'IC/電子マネー',       icon: '💰' },
+  { id: 'pointsite',  label: 'ポイントサイト経由',  icon: '🌐', onlyOnline: true },
+  { id: 'pointcard',  label: 'ポイントカード提示',  icon: '🎫' },
+];
+
+/* ── プログラム×決済手段×カテゴリ 還元率テーブル ──
+   base: 基本還元率, byCategory: カテゴリ別上書き率
+─────────────────────────────────────────────────── */
+const PAYMENT_RATES = {
+  rakuten: {
+    credit:     { base: 0.010, byCategory: { online: 0.030 } },
+    smartphone: { base: 0.015 },
+    cashless:   { base: 0.005 },
+    pointsite:  { base: 0.000, byCategory: { online: 0.030 } },
+    pointcard:  { base: 0.010 },
+  },
+  vpoint: {
+    credit:     { base: 0.005, byCategory: { convenience: 0.050, restaurant: 0.050 } },
+    smartphone: { base: 0.005 },
+    cashless:   { base: 0.005 },
+    pointsite:  { base: 0.000 },
+    pointcard:  { base: 0.005 },
+  },
+  dpoint: {
+    credit:     { base: 0.010, byCategory: { convenience: 0.050, restaurant: 0.050 } },
+    smartphone: { base: 0.005, byCategory: { utility: 0.010 } },
+    cashless:   { base: 0.005 },
+    pointsite:  { base: 0.000, byCategory: { online: 0.020 } },
+    pointcard:  { base: 0.010 },
+  },
+  ponta: {
+    credit:     { base: 0.010, byCategory: { gas: 0.020 } },
+    smartphone: { base: 0.005 },
+    cashless:   { base: 0.005 },
+    pointsite:  { base: 0.000 },
+    pointcard:  { base: 0.010, byCategory: { gas: 0.020 } },
+  },
+  paypay: {
+    credit:     { base: 0.015 },
+    smartphone: { base: 0.010, byCategory: { convenience: 0.015, restaurant: 0.015 } },
+    cashless:   { base: 0.005 },
+    pointsite:  { base: 0.000 },
+    pointcard:  { base: 0.000 },
+  },
+  waon: {
+    credit:     { base: 0.005, byCategory: { supermarket: 0.010 } },
+    smartphone: { base: 0.000 },
+    cashless:   { base: 0.005, byCategory: { supermarket: 0.010 } },
+    pointsite:  { base: 0.000 },
+    pointcard:  { base: 0.005 },
+  },
+  nanaco: {
+    credit:     { base: 0.005, byCategory: { convenience: 0.010 } },
+    smartphone: { base: 0.000 },
+    cashless:   { base: 0.005 },
+    pointsite:  { base: 0.000 },
+    pointcard:  { base: 0.005 },
+  },
 };
 
+/* ── プリセット ── */
 const PRESETS = [
-  { label: '標準家庭',   icon: '🏠', values: { convenience: 10000, supermarket: 40000, restaurant: 15000, online: 10000, travel: 5000,  gas: 8000,  utility: 20000 } },
-  { label: 'ネット通販派',icon: '💻', values: { convenience: 5000,  supermarket: 20000, restaurant: 10000, online: 50000, travel: 5000,  gas: 3000,  utility: 15000 } },
-  { label: 'ドライバー', icon: '🚗', values: { convenience: 15000, supermarket: 25000, restaurant: 20000, online: 5000,  travel: 20000, gas: 30000, utility: 15000 } },
-  { label: '外食多め',   icon: '🍜', values: { convenience: 8000,  supermarket: 10000, restaurant: 50000, online: 5000,  travel: 10000, gas: 5000,  utility: 15000 } },
+  { label: '標準家庭',    icon: '🏠', values: { convenience: 10000, supermarket: 40000, restaurant: 15000, online: 10000, travel: 5000,  gas: 8000,  utility: 20000 } },
+  { label: 'ネット通販派', icon: '💻', values: { convenience: 5000,  supermarket: 20000, restaurant: 10000, online: 50000, travel: 5000,  gas: 3000,  utility: 15000 } },
+  { label: 'ドライバー',  icon: '🚗', values: { convenience: 15000, supermarket: 25000, restaurant: 20000, online: 5000,  travel: 20000, gas: 30000, utility: 15000 } },
+  { label: '外食多め',    icon: '🍜', values: { convenience: 8000,  supermarket: 10000, restaurant: 50000, online: 5000,  travel: 10000, gas: 5000,  utility: 15000 } },
 ];
+
+/* ── ユーティリティ ── */
+function getRate(programId, paymentId, categoryId) {
+  const r = PAYMENT_RATES[programId]?.[paymentId];
+  if (!r) return 0;
+  return r.byCategory?.[categoryId] ?? r.base;
+}
 
 const ChartTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -47,28 +110,35 @@ const ChartTooltip = ({ active, payload, label }) => {
   );
 };
 
+/* ── メインコンポーネント ── */
 export default function Simulator() {
-  const [spending,   setSpending]   = useState(Object.fromEntries(SPENDING_CATEGORIES.map((c) => [c.id, c.monthlyDefault])));
-  const [months,     setMonths]     = useState(12);
-  const [chartType,  setChartType]  = useState('bar');
+  const [spending,  setSpending]  = useState(Object.fromEntries(SPENDING_CATEGORIES.map((c) => [c.id, c.monthlyDefault])));
+  const [payments,  setPayments]  = useState(Object.fromEntries(SPENDING_CATEGORIES.map((c) => [c.id, 'credit'])));
+  const [months,    setMonths]    = useState(12);
+  const [chartType, setChartType] = useState('bar');
 
   const totalMonthly = Object.values(spending).reduce((s, v) => s + Number(v || 0), 0);
 
   const simulation = useMemo(() => {
-    return Object.entries(PROGRAM_RATES).map(([programId, rates]) => {
+    return Object.keys(PAYMENT_RATES).map((programId) => {
       const prog = POINT_PROGRAMS.find((p) => p.id === programId);
-      const monthlyPoints = SPENDING_CATEGORIES.reduce((sum, cat) =>
-        sum + Math.floor(Number(spending[cat.id] || 0) * (rates[cat.id] ?? 0.01)), 0);
+      const monthlyPoints = SPENDING_CATEGORIES.reduce((sum, cat) => {
+        const rate = getRate(programId, payments[cat.id], cat.id);
+        return sum + Math.floor(Number(spending[cat.id] || 0) * rate);
+      }, 0);
       const totalPoints = monthlyPoints * months;
       const jpy = totalPoints * (prog?.exchangeRateToJpy ?? 1);
       return {
-        programId, name: prog?.shortName ?? programId, fullName: prog?.name ?? programId,
-        color: prog?.color ?? '#888', icon: prog?.icon ?? '•',
+        programId,
+        name:       prog?.shortName ?? programId,
+        fullName:   prog?.name ?? programId,
+        color:      prog?.color ?? '#888',
+        icon:       prog?.icon ?? '•',
         monthlyPoints, totalPoints, jpy,
         returnRate: totalMonthly > 0 ? (monthlyPoints / totalMonthly) * 100 : 0,
       };
     }).sort((a, b) => b.totalPoints - a.totalPoints);
-  }, [spending, months, totalMonthly]);
+  }, [spending, months, payments, totalMonthly]);
 
   const lineData = useMemo(() =>
     Array.from({ length: Math.min(months, 24) }, (_, i) => {
@@ -81,19 +151,30 @@ export default function Simulator() {
 
   const bestPerCat = useMemo(() =>
     SPENDING_CATEGORIES.map((cat) => {
+      const payId = payments[cat.id];
       let bestId = null, bestRate = 0;
-      Object.entries(PROGRAM_RATES).forEach(([id, rates]) => {
-        if ((rates[cat.id] ?? 0) > bestRate) { bestRate = rates[cat.id]; bestId = id; }
+      Object.keys(PAYMENT_RATES).forEach((id) => {
+        const rate = getRate(id, payId, cat.id);
+        if (rate > bestRate) { bestRate = rate; bestId = id; }
       });
       return { cat, prog: POINT_PROGRAMS.find((p) => p.id === bestId), rate: bestRate };
     }),
-  []);
+  [payments]);
+
+  function handlePreset(values) {
+    setSpending(values);
+  }
+
+  function handleReset() {
+    setSpending(Object.fromEntries(SPENDING_CATEGORIES.map((c) => [c.id, c.monthlyDefault])));
+    setPayments(Object.fromEntries(SPENDING_CATEGORIES.map((c) => [c.id, 'credit'])));
+  }
 
   return (
     <div className="space-y-5">
       <div>
         <h2 className="page-title">シミュレーター</h2>
-        <p className="page-sub">支出パターンから獲得ポイントを予測します</p>
+        <p className="page-sub">支出パターン・決済手段からポイント獲得を予測します</p>
       </div>
 
       {/* Presets */}
@@ -101,47 +182,92 @@ export default function Simulator() {
         <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">プリセット</p>
         <div className="flex flex-wrap gap-2">
           {PRESETS.map((preset) => (
-            <button key={preset.label} onClick={() => setSpending(preset.values)}
+            <button key={preset.label} onClick={() => handlePreset(preset.values)}
               className="flex items-center gap-1.5 px-3 py-2 bg-gray-50 hover:bg-blue-50 border border-gray-100 hover:border-blue-200 rounded-xl text-sm text-gray-700 transition-all active:scale-95">
-              <span>{preset.icon}</span>
-              {preset.label}
+              <span>{preset.icon}</span>{preset.label}
             </button>
           ))}
-          <button onClick={() => setSpending(Object.fromEntries(SPENDING_CATEGORIES.map((c) => [c.id, c.monthlyDefault])))}
+          <button onClick={handleReset}
             className="flex items-center gap-1.5 px-3 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-100 rounded-xl text-sm text-gray-400 transition-all active:scale-95">
             <RotateCcw size={12} /> リセット
           </button>
         </div>
       </div>
 
-      {/* Spending inputs */}
+      {/* Spending inputs with payment method */}
       <div className="card p-5">
         <div className="flex items-center justify-between mb-4">
-          <p className="text-sm font-semibold text-gray-800">月間支出</p>
+          <p className="text-sm font-semibold text-gray-800">月間支出 &amp; 決済手段</p>
           <div className="flex items-center gap-2 text-sm">
             <span className="text-gray-400">合計</span>
             <span className="font-bold text-blue-600">¥{totalMonthly.toLocaleString()}<span className="text-xs font-normal text-gray-400">/月</span></span>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-          {SPENDING_CATEGORIES.map((cat) => (
-            <div key={cat.id}>
-              <label className="text-xs text-gray-400 font-medium flex items-center gap-1 mb-1">
-                <span>{cat.icon}</span>{cat.label}
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 text-xs">¥</span>
-                <input type="number" value={spending[cat.id]}
-                  onChange={(e) => setSpending((prev) => ({ ...prev, [cat.id]: e.target.value }))}
-                  className="input pl-7" min="0" step="1000" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {SPENDING_CATEGORIES.map((cat) => {
+            const availableMethods = PAYMENT_METHODS.filter((pm) => !pm.onlyOnline || cat.id === 'online');
+            return (
+              <div key={cat.id} className="rounded-xl border border-gray-100 bg-gray-50/50 p-3 space-y-2">
+                {/* ラベル + 金額 */}
+                <label className="text-xs text-gray-500 font-semibold flex items-center gap-1">
+                  <span>{cat.icon}</span>{cat.label}
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 text-xs">¥</span>
+                  <input
+                    type="number"
+                    value={spending[cat.id]}
+                    onChange={(e) => setSpending((prev) => ({ ...prev, [cat.id]: e.target.value }))}
+                    className="input pl-7"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                {/* 決済手段ボタン */}
+                <div className="flex flex-wrap gap-1">
+                  {availableMethods.map((pm) => (
+                    <button
+                      key={pm.id}
+                      onClick={() => setPayments((prev) => ({ ...prev, [cat.id]: pm.id }))}
+                      className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium transition-all active:scale-95 ${
+                        payments[cat.id] === pm.id
+                          ? 'bg-blue-600 text-white shadow-sm'
+                          : 'bg-white text-gray-500 border border-gray-200 hover:border-blue-300 hover:text-blue-600'
+                      }`}
+                    >
+                      {pm.icon} {pm.label}
+                    </button>
+                  ))}
+                </div>
+                {/* 現在の還元率プレビュー（ベスト3） */}
+                <div className="flex flex-wrap gap-1.5 pt-1 border-t border-gray-100">
+                  {Object.keys(PAYMENT_RATES)
+                    .map((pid) => ({
+                      pid,
+                      prog: POINT_PROGRAMS.find((p) => p.id === pid),
+                      rate: getRate(pid, payments[cat.id], cat.id),
+                    }))
+                    .filter((x) => x.rate > 0)
+                    .sort((a, b) => b.rate - a.rate)
+                    .slice(0, 3)
+                    .map(({ pid, prog, rate }) => (
+                      <span key={pid} className="flex items-center gap-0.5 text-[10px] text-gray-400">
+                        <span>{prog?.icon}</span>
+                        <span style={{ color: prog?.color }} className="font-semibold">
+                          {(rate * 100).toFixed(1)}%
+                        </span>
+                      </span>
+                    ))
+                  }
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Period selector */}
-        <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-50">
+        <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100 flex-wrap">
           <span className="text-xs text-gray-400 font-medium whitespace-nowrap">シミュレーション期間</span>
           <div className="flex gap-1.5 flex-wrap">
             {[1, 3, 6, 12, 24].map((m) => (
@@ -153,6 +279,20 @@ export default function Simulator() {
               </button>
             ))}
           </div>
+        </div>
+
+        {/* 決済手段の説明 */}
+        <div className="mt-3 rounded-xl bg-blue-50 border border-blue-100 px-3 py-2">
+          <p className="text-[10px] text-blue-600 font-semibold mb-1">決済手段について</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-0.5">
+            {PAYMENT_METHODS.map((pm) => (
+              <p key={pm.id} className="text-[10px] text-blue-500">
+                {pm.icon} <span className="font-medium">{pm.label}</span>
+                {pm.onlyOnline && <span className="text-blue-400 ml-1">(ネット通販のみ)</span>}
+              </p>
+            ))}
+          </div>
+          <p className="text-[10px] text-blue-400 mt-1.5">※ 還元率は各プログラムの代表的な値です。実際の還元率はカード・サービスによって異なります。</p>
         </div>
       </div>
 
@@ -247,22 +387,26 @@ export default function Simulator() {
       <div className="card p-5">
         <div className="flex items-center gap-2 mb-4">
           <BookmarkPlus size={15} className="text-blue-500" />
-          <p className="text-sm font-semibold text-gray-800">カテゴリ別おすすめカード</p>
+          <p className="text-sm font-semibold text-gray-800">カテゴリ別おすすめ（選択中の決済手段）</p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
-          {bestPerCat.map(({ cat, prog, rate }) => (
-            <div key={cat.id} className="bg-gray-50 hover:bg-gray-100 transition-colors rounded-xl p-3 border border-gray-100">
-              <div className="flex items-center gap-1.5 mb-2">
-                <span className="text-base">{cat.icon}</span>
-                <span className="text-xs font-medium text-gray-500">{cat.label}</span>
+          {bestPerCat.map(({ cat, prog, rate }) => {
+            const pm = PAYMENT_METHODS.find((p) => p.id === payments[cat.id]);
+            return (
+              <div key={cat.id} className="bg-gray-50 hover:bg-gray-100 transition-colors rounded-xl p-3 border border-gray-100">
+                <div className="flex items-center gap-1.5 mb-2">
+                  <span className="text-base">{cat.icon}</span>
+                  <span className="text-xs font-medium text-gray-500">{cat.label}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-sm">{prog?.icon}</span>
+                  <span className="text-xs font-bold" style={{ color: prog?.color }}>{prog?.shortName}</span>
+                </div>
+                <p className="text-[11px] text-gray-400 mt-1">{(rate * 100).toFixed(1)}% 還元</p>
+                <p className="text-[10px] text-gray-300 mt-0.5">{pm?.icon} {pm?.label}</p>
               </div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-sm">{prog?.icon}</span>
-                <span className="text-xs font-bold" style={{ color: prog?.color }}>{prog?.shortName}</span>
-              </div>
-              <p className="text-[11px] text-gray-400 mt-1">{(rate * 100).toFixed(1)}% 還元</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
