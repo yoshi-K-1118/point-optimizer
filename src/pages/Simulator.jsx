@@ -58,6 +58,34 @@ const POINTSITE_OPTIONS = [
   { id: 'gendama', label: 'げん玉',   rate: 0.015 },
 ];
 
+/* ── コンビニチェーン ── */
+const CONVENIENCE_STORES = [
+  { id: 'seven',  label: 'セブン-イレブン',  icon: '🟠' },
+  { id: 'family', label: 'ファミリーマート', icon: '🟢' },
+  { id: 'lawson', label: 'ローソン',          icon: '🔵' },
+  { id: 'mini',   label: 'ミニストップ',       icon: '🟡' },
+  { id: 'daily',  label: 'デイリーヤマザキ',   icon: '🔴' },
+];
+
+/* コンビニ別 支払い方法 還元率 (参考値) */
+const STORE_PAYMENT_RATES = {
+  //            rakuten_card smbc_card d_card aupay_card paypay_card aeon_card seven_card rakuten_pay d_pay  paypay_app aupay_app waon_pay nanaco_pay cash
+  seven:  { rakuten_card:0.010, smbc_card:0.050, d_card:0.010, aupay_card:0.010, paypay_card:0.015, aeon_card:0.005, seven_card:0.010, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.015, aupay_app:0.005, waon_pay:0.005, nanaco_pay:0.010, cash:0 },
+  family: { rakuten_card:0.010, smbc_card:0.050, d_card:0.015, aupay_card:0.010, paypay_card:0.015, aeon_card:0.005, seven_card:0.005, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.015, aupay_app:0.005, waon_pay:0.005, nanaco_pay:0.005, cash:0 },
+  lawson: { rakuten_card:0.010, smbc_card:0.050, d_card:0.015, aupay_card:0.010, paypay_card:0.015, aeon_card:0.005, seven_card:0.005, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.015, aupay_app:0.005, waon_pay:0.005, nanaco_pay:0.005, cash:0 },
+  mini:   { rakuten_card:0.010, smbc_card:0.005, d_card:0.010, aupay_card:0.010, paypay_card:0.015, aeon_card:0.010, seven_card:0.005, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.010, aupay_app:0.005, waon_pay:0.010, nanaco_pay:0.005, cash:0 },
+  daily:  { rakuten_card:0.010, smbc_card:0.005, d_card:0.010, aupay_card:0.010, paypay_card:0.015, aeon_card:0.005, seven_card:0.005, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.010, aupay_app:0.005, waon_pay:0.005, nanaco_pay:0.005, cash:0 },
+};
+
+/* コンビニ別 ポイントカード提示 還元率 (参考値) */
+const STORE_LOYALTY_RATES = {
+  seven:  { none:0, d_pcard:0,     ponta_pcard:0,     rakuten_pcard:0,     vpoint_pcard:0,     waon_pcard:0,     nanaco_pcard:0.010 },
+  family: { none:0, d_pcard:0.010, ponta_pcard:0.010, rakuten_pcard:0,     vpoint_pcard:0,     waon_pcard:0,     nanaco_pcard:0     },
+  lawson: { none:0, d_pcard:0.010, ponta_pcard:0.010, rakuten_pcard:0,     vpoint_pcard:0,     waon_pcard:0,     nanaco_pcard:0     },
+  mini:   { none:0, d_pcard:0,     ponta_pcard:0,     rakuten_pcard:0,     vpoint_pcard:0,     waon_pcard:0.010, nanaco_pcard:0     },
+  daily:  { none:0, d_pcard:0,     ponta_pcard:0,     rakuten_pcard:0.010, vpoint_pcard:0,     waon_pcard:0,     nanaco_pcard:0     },
+};
+
 /* ── プリセット ── */
 const PRESETS = [
   { label: '標準家庭',    icon: '🏠', values: { convenience: 10000, supermarket: 40000, restaurant: 15000, online: 10000, travel: 5000,  gas: 8000,  utility: 20000 } },
@@ -78,13 +106,19 @@ function buildLayers(catId, stack) {
   const site = POINTSITE_OPTIONS.find(o => o.id === stack.site);
   const layers = [];
 
-  const payRate = optionRate(pay, catId);
+  // コンビニはストア別テーブルを優先
+  const isConv = catId === 'convenience' && stack.store;
+  const payRate = isConv
+    ? (STORE_PAYMENT_RATES[stack.store]?.[stack.payment] ?? 0)
+    : optionRate(pay, catId);
   if (pay && pay.id !== 'cash' && payRate > 0) {
     const prog = POINT_PROGRAMS.find(p => p.id === pay.program);
     layers.push({ label: pay.label, programId: pay.program, name: prog?.shortName ?? '', color: prog?.color ?? '#888', icon: prog?.icon ?? '💳', rate: payRate, type: 'payment' });
   }
 
-  const loyRate = optionRate(loy, catId);
+  const loyRate = isConv
+    ? (STORE_LOYALTY_RATES[stack.store]?.[stack.loyalty] ?? 0)
+    : optionRate(loy, catId);
   if (loy && loy.id !== 'none' && loyRate > 0) {
     const prog = POINT_PROGRAMS.find(p => p.id === loy.program);
     layers.push({ label: loy.label, programId: loy.program, name: prog?.shortName ?? '', color: prog?.color ?? '#888', icon: prog?.icon ?? '🎫', rate: loyRate, type: 'loyalty' });
@@ -117,7 +151,12 @@ export default function Simulator() {
     Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, c.monthlyDefault]))
   );
   const [stacks, setStacks] = useState(
-    Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, { payment: 'rakuten_card', loyalty: 'none', site: 'none' }]))
+    Object.fromEntries(SPENDING_CATEGORIES.map(c => [
+      c.id,
+      c.id === 'convenience'
+        ? { payment: 'smbc_card', loyalty: 'none', site: 'none', store: 'seven' }
+        : { payment: 'rakuten_card', loyalty: 'none', site: 'none' },
+    ]))
   );
   const [months, setMonths] = useState(12);
 
@@ -156,9 +195,24 @@ export default function Simulator() {
   const totalJpy = simulation.filter(p => p.programId !== 'site').reduce((s, p) => s + p.jpy, 0);
   const siteBonus = (simulation.find(p => p.programId === 'site')?.jpy ?? 0);
 
-  /* おすすめ組み合わせ */
+  /* コンビニ: ストア別おすすめ */
+  const convBestByStore = useMemo(() =>
+    CONVENIENCE_STORES.map(store => {
+      let best = { rate: 0, payment: PAYMENT_OPTIONS[0], loyalty: LOYALTY_OPTIONS[0] };
+      PAYMENT_OPTIONS.forEach(pay =>
+        LOYALTY_OPTIONS.forEach(loy => {
+          const layers = buildLayers('convenience', { payment: pay.id, loyalty: loy.id, site: 'none', store: store.id });
+          const rate = layers.reduce((s, l) => s + l.rate, 0);
+          if (rate > best.rate) best = { rate, payment: pay, loyalty: loy, layers };
+        })
+      );
+      return { store, ...best };
+    }),
+  []);
+
+  /* おすすめ組み合わせ (コンビニ以外) */
   const bestCombos = useMemo(() =>
-    SPENDING_CATEGORIES.map(cat => {
+    SPENDING_CATEGORIES.filter(c => c.id !== 'convenience').map(cat => {
       let best = { rate: 0, payment: PAYMENT_OPTIONS[0], loyalty: LOYALTY_OPTIONS[0], site: POINTSITE_OPTIONS[0] };
       const loyaltyCheck = cat.id === 'online' ? [LOYALTY_OPTIONS[0]] : LOYALTY_OPTIONS;
       const siteCheck = cat.id === 'online' ? POINTSITE_OPTIONS : [POINTSITE_OPTIONS[0]];
@@ -180,9 +234,22 @@ export default function Simulator() {
   }
 
   function applyBest(catId) {
-    const b = bestCombos.find(b => b.cat.id === catId);
+    if (catId === 'convenience') {
+      const storeId = stacks.convenience.store;
+      const b = convBestByStore.find(b => b.store.id === storeId);
+      if (!b) return;
+      setStacks(prev => ({ ...prev, convenience: { ...prev.convenience, payment: b.payment.id, loyalty: b.loyalty.id } }));
+    } else {
+      const b = bestCombos.find(b => b.cat.id === catId);
+      if (!b) return;
+      setStacks(prev => ({ ...prev, [catId]: { payment: b.payment.id, loyalty: b.loyalty.id, site: b.site.id } }));
+    }
+  }
+
+  function applyConvStore(storeId) {
+    const b = convBestByStore.find(b => b.store.id === storeId);
     if (!b) return;
-    setStacks(prev => ({ ...prev, [catId]: { payment: b.payment.id, loyalty: b.loyalty.id, site: b.site.id } }));
+    setStacks(prev => ({ ...prev, convenience: { ...prev.convenience, store: storeId, payment: b.payment.id, loyalty: b.loyalty.id } }));
   }
 
   const payGroups = [...new Set(PAYMENT_OPTIONS.map(o => o.group))];
@@ -211,7 +278,7 @@ export default function Simulator() {
               {preset.icon} {preset.label}
             </button>
           ))}
-          <button onClick={() => { setSpending(Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, c.monthlyDefault]))); setStacks(Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, { payment: 'rakuten_card', loyalty: 'none', site: 'none' }]))); }}
+          <button onClick={() => { setSpending(Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, c.monthlyDefault]))); setStacks(Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, c.id === 'convenience' ? { payment: 'smbc_card', loyalty: 'none', site: 'none', store: 'seven' } : { payment: 'rakuten_card', loyalty: 'none', site: 'none' }]))); }}
             className="flex items-center gap-1.5 px-3 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-100 rounded-xl text-sm text-gray-400 transition-all active:scale-95">
             <RotateCcw size={12} /> リセット
           </button>
@@ -256,6 +323,26 @@ export default function Simulator() {
                     </button>
                   </div>
                 </div>
+
+                {/* コンビニ: ストア選択 */}
+                {cat.id === 'convenience' && (
+                  <div>
+                    <p className="text-[10px] text-gray-400 font-semibold mb-1">🏪 コンビニチェーン</p>
+                    <div className="flex flex-wrap gap-1">
+                      {CONVENIENCE_STORES.map(store => (
+                        <button key={store.id}
+                          onClick={() => updateStack('convenience', 'store', store.id)}
+                          className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium transition-all active:scale-95 ${
+                            stacks.convenience.store === store.id
+                              ? 'bg-blue-600 text-white shadow-sm'
+                              : 'bg-white text-gray-500 border border-gray-200 hover:border-blue-300 hover:text-blue-600'
+                          }`}>
+                          {store.icon} {store.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Amount input */}
                 <div className="relative">
@@ -423,15 +510,56 @@ export default function Simulator() {
         )}
       </div>
 
-      {/* Best combinations */}
+      {/* Best combinations: コンビニ per store */}
       <div className="card p-5">
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-1">
+          <Zap size={15} className="text-amber-500" />
+          <p className="text-sm font-semibold text-gray-800">コンビニ別おすすめ組み合わせ</p>
+        </div>
+        <p className="text-xs text-gray-400 mb-3">クリックするとコンビニ設定に自動適用されます</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+          {convBestByStore.map(({ store, rate, layers }) => (
+            <button key={store.id} onClick={() => applyConvStore(store.id)}
+              className={`flex items-start gap-3 p-3 rounded-xl border transition-all text-left active:scale-95 ${
+                stacks.convenience.store === store.id
+                  ? 'bg-blue-50 border-blue-200'
+                  : 'bg-gray-50 hover:bg-amber-50 border-gray-100 hover:border-amber-200'
+              }`}>
+              <span className="text-xl mt-0.5">{store.icon}</span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-semibold text-gray-700">{store.label}</span>
+                  {layers.length >= 2 && (
+                    <span className="badge text-white text-[10px]"
+                      style={{ backgroundColor: layers.length >= 3 ? '#7c3aed' : '#2563eb' }}>
+                      {STACK_LABELS[Math.min(layers.length, 3)]}
+                    </span>
+                  )}
+                  <span className="ml-auto text-xs font-bold text-amber-600">{(rate * 100).toFixed(1)}%</span>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {layers.map((l, i) => (
+                    <span key={i} className="flex items-center gap-0.5 text-[10px] px-1.5 py-0.5 rounded-md"
+                      style={{ backgroundColor: l.color + '18', color: l.color }}>
+                      {l.icon} {l.name} {(l.rate * 100).toFixed(1)}%
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Best combinations: その他カテゴリ */}
+      <div className="card p-5">
+        <div className="flex items-center gap-2 mb-1">
           <Zap size={15} className="text-amber-500" />
           <p className="text-sm font-semibold text-gray-800">カテゴリ別おすすめ最大重ね取り</p>
         </div>
         <p className="text-xs text-gray-400 mb-3">「最適化」ボタンを押すとそのカテゴリに自動適用されます</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          {bestCombos.map(({ cat, rate, layers, payment, loyalty, site }) => (
+          {bestCombos.map(({ cat, rate, layers }) => (
             <button key={cat.id} onClick={() => applyBest(cat.id)}
               className="flex items-start gap-3 p-3 rounded-xl bg-gray-50 hover:bg-amber-50 border border-gray-100 hover:border-amber-200 transition-all text-left active:scale-95">
               <span className="text-xl mt-0.5">{cat.icon}</span>
@@ -441,7 +569,7 @@ export default function Simulator() {
                   {layers.length >= 2 && (
                     <span className="badge text-white text-[10px]"
                       style={{ backgroundColor: layers.length >= 3 ? '#7c3aed' : '#2563eb' }}>
-                      {STACK_LABELS[layers.length]}
+                      {STACK_LABELS[Math.min(layers.length, 3)]}
                     </span>
                   )}
                   <span className="ml-auto text-xs font-bold text-amber-600">{(rate * 100).toFixed(2)}%</span>
@@ -458,7 +586,7 @@ export default function Simulator() {
             </button>
           ))}
         </div>
-        <p className="text-[10px] text-gray-300 mt-3">※ 還元率は代表的な値です。ポイントサイトはハピタス/モッピー等の参考値。実際はカード・店舗・サービスにより異なります。</p>
+        <p className="text-[10px] text-gray-300 mt-3">※ 還元率は代表的な参考値です。実際はカード・店舗・サービスにより異なります。</p>
       </div>
     </div>
   );
