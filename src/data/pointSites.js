@@ -312,9 +312,6 @@ export const CREDIT_CARDS = [
   { id: 'jal_card_gold',    name: 'JALカードCLUB-Aゴールド',       programId: 'mileage_jal', onlineRate: 0.010, color: '#9b0000', icon: '🛫' },
   { id: 'ana_card',         name: 'ANAカード',                     programId: 'mileage_ana', onlineRate: 0.005, color: '#003087', icon: '✈️' },
   { id: 'ana_card_gold',    name: 'ANAワイドゴールドカード',       programId: 'mileage_ana', onlineRate: 0.010, color: '#001a4d', icon: '✈️' },
-  // ── エポス ──
-  { id: 'epos_card',        name: 'エポスカード',                  programId: 'rakuten',     onlineRate: 0.005, color: '#e23e57', icon: '🏬' },
-  { id: 'epos_gold',        name: 'エポスゴールドカード',          programId: 'rakuten',     onlineRate: 0.005, color: '#a93226', icon: '🏬' },
   // ── セブン ──
   { id: 'seven_card',       name: 'セブンカード・プラス',          programId: 'nanaco',      onlineRate: 0.005, color: '#007b40', icon: '🏪' },
   // ── イオン ──
@@ -498,25 +495,6 @@ export const CREDIT_CARDS_DETAIL = [
     features: ['ショッピングマイル1%（通常の2倍）', 'スーパーフライヤーズ取得に有効', '国内外空港ラウンジ無料'],
     bestFor: ['ANAヘビーユーザー', 'SFC修行', '空港ラウンジ'],
     tags: ['ゴールド', 'ANA最上位', 'マイル高還元'],
-    applyUrl: '#',
-  },
-  // ── エポス ──
-  {
-    id: 'epos_card',
-    annualFee: 0,
-    annualFeeNote: '永年無料',
-    features: ['マルイ・モディで優待割引', '海外旅行保険が自動付帯', 'VISAタッチ決済対応'],
-    bestFor: ['マルイ・モディ', '海外旅行', 'ファッション'],
-    tags: ['年会費無料', '海外保険無料', 'マルイ特典'],
-    applyUrl: '#',
-  },
-  {
-    id: 'epos_gold',
-    annualFee: 5000,
-    annualFeeNote: '5,000円/年（招待または年50万円利用で永年無料）',
-    features: ['選べるポイントアップショップで3倍', '国内空港ラウンジ無料', '年間50万円利用でボーナスポイント'],
-    bestFor: ['よく使う店舗', '空港ラウンジ', 'ポイントアップ店'],
-    tags: ['ゴールド', 'エポス上位', '条件付き無料'],
     applyUrl: '#',
   },
   // ── セブン ──
