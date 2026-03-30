@@ -86,6 +86,48 @@ const STORE_LOYALTY_RATES = {
   daily:  { none:0, d_pcard:0,     ponta_pcard:0,     rakuten_pcard:0.010, vpoint_pcard:0,     waon_pcard:0,     nanaco_pcard:0     },
 };
 
+/* ── スーパーチェーン ── */
+const SUPERMARKET_STORES = [
+  { id: 'aeon',       label: 'イオン/マックスバリュ', icon: '🔴' },
+  { id: 'itoyokado',  label: 'イトーヨーカドー',       icon: '🟠' },
+  { id: 'seiyu',      label: '西友',                   icon: '🔵' },
+  { id: 'life',       label: 'ライフ',                  icon: '🟢' },
+  { id: 'maruetsu',   label: 'マルエツ',                icon: '🟡' },
+  { id: 'yaoko',      label: 'ヤオコー',                icon: '🟤' },
+  { id: 'belc',       label: 'ベルク',                  icon: '🔶' },
+  { id: 'summit',     label: 'サミット',                icon: '⚫' },
+  { id: 'coop',       label: 'コープ/生協',             icon: '🟣' },
+  { id: 'ok',         label: 'オーケー',                icon: '🟩' },
+];
+
+/* スーパー別 支払い方法 還元率 (参考値) */
+const SUPERMARKET_PAYMENT_RATES = {
+  aeon:      { rakuten_card:0.010, smbc_card:0.005, d_card:0.010, aupay_card:0.010, paypay_card:0.015, aeon_card:0.010, seven_card:0.005, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.010, aupay_app:0.005, waon_pay:0.010, nanaco_pay:0.005, cash:0 },
+  itoyokado: { rakuten_card:0.010, smbc_card:0.005, d_card:0.010, aupay_card:0.010, paypay_card:0.015, aeon_card:0.005, seven_card:0.010, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.010, aupay_app:0.005, waon_pay:0.005, nanaco_pay:0.010, cash:0 },
+  seiyu:     { rakuten_card:0.010, smbc_card:0.005, d_card:0.010, aupay_card:0.010, paypay_card:0.015, aeon_card:0.005, seven_card:0.005, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.010, aupay_app:0.005, waon_pay:0.005, nanaco_pay:0.005, cash:0 },
+  life:      { rakuten_card:0.010, smbc_card:0.005, d_card:0.010, aupay_card:0.010, paypay_card:0.015, aeon_card:0.005, seven_card:0.005, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.010, aupay_app:0.005, waon_pay:0.005, nanaco_pay:0.005, cash:0 },
+  maruetsu:  { rakuten_card:0.010, smbc_card:0.005, d_card:0.010, aupay_card:0.010, paypay_card:0.015, aeon_card:0.005, seven_card:0.005, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.010, aupay_app:0.005, waon_pay:0.005, nanaco_pay:0.005, cash:0 },
+  yaoko:     { rakuten_card:0.010, smbc_card:0.005, d_card:0.010, aupay_card:0.010, paypay_card:0.015, aeon_card:0.005, seven_card:0.005, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.010, aupay_app:0.005, waon_pay:0.005, nanaco_pay:0.005, cash:0 },
+  belc:      { rakuten_card:0.010, smbc_card:0.005, d_card:0.010, aupay_card:0.010, paypay_card:0.015, aeon_card:0.005, seven_card:0.005, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.010, aupay_app:0.005, waon_pay:0.005, nanaco_pay:0.005, cash:0 },
+  summit:    { rakuten_card:0.010, smbc_card:0.005, d_card:0.010, aupay_card:0.010, paypay_card:0.015, aeon_card:0.005, seven_card:0.005, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.010, aupay_app:0.005, waon_pay:0.005, nanaco_pay:0.005, cash:0 },
+  coop:      { rakuten_card:0.010, smbc_card:0.005, d_card:0.010, aupay_card:0.010, paypay_card:0.015, aeon_card:0.005, seven_card:0.005, rakuten_pay:0.015, d_pay:0.005, paypay_app:0.010, aupay_app:0.005, waon_pay:0.005, nanaco_pay:0.005, cash:0 },
+  ok:        { rakuten_card:0.010, smbc_card:0.005, d_card:0.010, aupay_card:0.010, paypay_card:0.015, aeon_card:0.005, seven_card:0.005, rakuten_pay:0.010, d_pay:0.005, paypay_app:0.010, aupay_app:0.005, waon_pay:0.005, nanaco_pay:0.005, cash:0 },
+};
+
+/* スーパー別 ポイントカード提示 還元率 (参考値) */
+const SUPERMARKET_LOYALTY_RATES = {
+  aeon:      { none:0, d_pcard:0,     ponta_pcard:0,     rakuten_pcard:0,     vpoint_pcard:0,     waon_pcard:0.010, nanaco_pcard:0     },
+  itoyokado: { none:0, d_pcard:0,     ponta_pcard:0,     rakuten_pcard:0,     vpoint_pcard:0,     waon_pcard:0,     nanaco_pcard:0.010 },
+  seiyu:     { none:0, d_pcard:0,     ponta_pcard:0,     rakuten_pcard:0.010, vpoint_pcard:0,     waon_pcard:0,     nanaco_pcard:0     },
+  life:      { none:0, d_pcard:0.010, ponta_pcard:0.010, rakuten_pcard:0,     vpoint_pcard:0,     waon_pcard:0,     nanaco_pcard:0     },
+  maruetsu:  { none:0, d_pcard:0.010, ponta_pcard:0,     rakuten_pcard:0,     vpoint_pcard:0,     waon_pcard:0,     nanaco_pcard:0     },
+  yaoko:     { none:0, d_pcard:0,     ponta_pcard:0,     rakuten_pcard:0,     vpoint_pcard:0,     waon_pcard:0,     nanaco_pcard:0     },
+  belc:      { none:0, d_pcard:0,     ponta_pcard:0.010, rakuten_pcard:0,     vpoint_pcard:0,     waon_pcard:0,     nanaco_pcard:0     },
+  summit:    { none:0, d_pcard:0,     ponta_pcard:0,     rakuten_pcard:0,     vpoint_pcard:0.005, waon_pcard:0,     nanaco_pcard:0     },
+  coop:      { none:0, d_pcard:0,     ponta_pcard:0,     rakuten_pcard:0,     vpoint_pcard:0,     waon_pcard:0,     nanaco_pcard:0     },
+  ok:        { none:0, d_pcard:0,     ponta_pcard:0,     rakuten_pcard:0,     vpoint_pcard:0,     waon_pcard:0,     nanaco_pcard:0     },
+};
+
 /* ── プリセット ── */
 const PRESETS = [
   { label: '標準家庭',    icon: '🏠', values: { convenience: 10000, supermarket: 40000, restaurant: 15000, online: 10000, travel: 5000,  gas: 8000,  utility: 20000 } },
@@ -106,11 +148,14 @@ function buildLayers(catId, stack) {
   const site = POINTSITE_OPTIONS.find(o => o.id === stack.site);
   const layers = [];
 
-  // コンビニはストア別テーブルを優先
-  const isConv = catId === 'convenience' && stack.store;
+  // コンビニ・スーパーはストア別テーブルを優先
+  const isConv  = catId === 'convenience' && stack.store;
+  const isSuper = catId === 'supermarket'  && stack.store;
   const payRate = isConv
     ? (STORE_PAYMENT_RATES[stack.store]?.[stack.payment] ?? 0)
-    : optionRate(pay, catId);
+    : isSuper
+      ? (SUPERMARKET_PAYMENT_RATES[stack.store]?.[stack.payment] ?? 0)
+      : optionRate(pay, catId);
   if (pay && pay.id !== 'cash' && payRate > 0) {
     const prog = POINT_PROGRAMS.find(p => p.id === pay.program);
     layers.push({ label: pay.label, programId: pay.program, name: prog?.shortName ?? '', color: prog?.color ?? '#888', icon: prog?.icon ?? '💳', rate: payRate, type: 'payment' });
@@ -118,7 +163,9 @@ function buildLayers(catId, stack) {
 
   const loyRate = isConv
     ? (STORE_LOYALTY_RATES[stack.store]?.[stack.loyalty] ?? 0)
-    : optionRate(loy, catId);
+    : isSuper
+      ? (SUPERMARKET_LOYALTY_RATES[stack.store]?.[stack.loyalty] ?? 0)
+      : optionRate(loy, catId);
   if (loy && loy.id !== 'none' && loyRate > 0) {
     const prog = POINT_PROGRAMS.find(p => p.id === loy.program);
     layers.push({ label: loy.label, programId: loy.program, name: prog?.shortName ?? '', color: prog?.color ?? '#888', icon: prog?.icon ?? '🎫', rate: loyRate, type: 'loyalty' });
@@ -154,8 +201,10 @@ export default function Simulator() {
     Object.fromEntries(SPENDING_CATEGORIES.map(c => [
       c.id,
       c.id === 'convenience'
-        ? { payment: 'smbc_card', loyalty: 'none', site: 'none', store: 'seven' }
-        : { payment: 'rakuten_card', loyalty: 'none', site: 'none' },
+        ? { payment: 'smbc_card',   loyalty: 'none', site: 'none', store: 'seven' }
+        : c.id === 'supermarket'
+          ? { payment: 'aeon_card', loyalty: 'none', site: 'none', store: 'aeon' }
+          : { payment: 'rakuten_card', loyalty: 'none', site: 'none' },
     ]))
   );
   const [months, setMonths] = useState(12);
@@ -210,9 +259,24 @@ export default function Simulator() {
     }),
   []);
 
-  /* おすすめ組み合わせ (コンビニ以外) */
+  /* スーパー: ストア別おすすめ */
+  const superBestByStore = useMemo(() =>
+    SUPERMARKET_STORES.map(store => {
+      let best = { rate: 0, payment: PAYMENT_OPTIONS[0], loyalty: LOYALTY_OPTIONS[0] };
+      PAYMENT_OPTIONS.forEach(pay =>
+        LOYALTY_OPTIONS.forEach(loy => {
+          const layers = buildLayers('supermarket', { payment: pay.id, loyalty: loy.id, site: 'none', store: store.id });
+          const rate = layers.reduce((s, l) => s + l.rate, 0);
+          if (rate > best.rate) best = { rate, payment: pay, loyalty: loy, layers };
+        })
+      );
+      return { store, ...best };
+    }),
+  []);
+
+  /* おすすめ組み合わせ (コンビニ・スーパー以外) */
   const bestCombos = useMemo(() =>
-    SPENDING_CATEGORIES.filter(c => c.id !== 'convenience').map(cat => {
+    SPENDING_CATEGORIES.filter(c => c.id !== 'convenience' && c.id !== 'supermarket').map(cat => {
       let best = { rate: 0, payment: PAYMENT_OPTIONS[0], loyalty: LOYALTY_OPTIONS[0], site: POINTSITE_OPTIONS[0] };
       const loyaltyCheck = cat.id === 'online' ? [LOYALTY_OPTIONS[0]] : LOYALTY_OPTIONS;
       const siteCheck = cat.id === 'online' ? POINTSITE_OPTIONS : [POINTSITE_OPTIONS[0]];
@@ -239,6 +303,11 @@ export default function Simulator() {
       const b = convBestByStore.find(b => b.store.id === storeId);
       if (!b) return;
       setStacks(prev => ({ ...prev, convenience: { ...prev.convenience, payment: b.payment.id, loyalty: b.loyalty.id } }));
+    } else if (catId === 'supermarket') {
+      const storeId = stacks.supermarket.store;
+      const b = superBestByStore.find(b => b.store.id === storeId);
+      if (!b) return;
+      setStacks(prev => ({ ...prev, supermarket: { ...prev.supermarket, payment: b.payment.id, loyalty: b.loyalty.id } }));
     } else {
       const b = bestCombos.find(b => b.cat.id === catId);
       if (!b) return;
@@ -250,6 +319,12 @@ export default function Simulator() {
     const b = convBestByStore.find(b => b.store.id === storeId);
     if (!b) return;
     setStacks(prev => ({ ...prev, convenience: { ...prev.convenience, store: storeId, payment: b.payment.id, loyalty: b.loyalty.id } }));
+  }
+
+  function applySupStore(storeId) {
+    const b = superBestByStore.find(b => b.store.id === storeId);
+    if (!b) return;
+    setStacks(prev => ({ ...prev, supermarket: { ...prev.supermarket, store: storeId, payment: b.payment.id, loyalty: b.loyalty.id } }));
   }
 
   const payGroups = [...new Set(PAYMENT_OPTIONS.map(o => o.group))];
@@ -278,7 +353,7 @@ export default function Simulator() {
               {preset.icon} {preset.label}
             </button>
           ))}
-          <button onClick={() => { setSpending(Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, c.monthlyDefault]))); setStacks(Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, c.id === 'convenience' ? { payment: 'smbc_card', loyalty: 'none', site: 'none', store: 'seven' } : { payment: 'rakuten_card', loyalty: 'none', site: 'none' }]))); }}
+          <button onClick={() => { setSpending(Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, c.monthlyDefault]))); setStacks(Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, c.id === 'convenience' ? { payment: 'smbc_card', loyalty: 'none', site: 'none', store: 'seven' } : c.id === 'supermarket' ? { payment: 'aeon_card', loyalty: 'none', site: 'none', store: 'aeon' } : { payment: 'rakuten_card', loyalty: 'none', site: 'none' }]))); }}
             className="flex items-center gap-1.5 px-3 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-100 rounded-xl text-sm text-gray-400 transition-all active:scale-95">
             <RotateCcw size={12} /> リセット
           </button>
@@ -323,6 +398,26 @@ export default function Simulator() {
                     </button>
                   </div>
                 </div>
+
+                {/* スーパー: ストア選択 */}
+                {cat.id === 'supermarket' && (
+                  <div>
+                    <p className="text-[10px] text-gray-400 font-semibold mb-1">🛒 スーパーチェーン</p>
+                    <div className="flex flex-wrap gap-1">
+                      {SUPERMARKET_STORES.map(store => (
+                        <button key={store.id}
+                          onClick={() => updateStack('supermarket', 'store', store.id)}
+                          className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium transition-all active:scale-95 ${
+                            stacks.supermarket.store === store.id
+                              ? 'bg-blue-600 text-white shadow-sm'
+                              : 'bg-white text-gray-500 border border-gray-200 hover:border-blue-300 hover:text-blue-600'
+                          }`}>
+                          {store.icon} {store.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* コンビニ: ストア選択 */}
                 {cat.id === 'convenience' && (
@@ -508,6 +603,47 @@ export default function Simulator() {
         ) : (
           <p className="text-sm text-gray-300 py-8 text-center">支払い方法を設定してください</p>
         )}
+      </div>
+
+      {/* Best combinations: スーパー per store */}
+      <div className="card p-5">
+        <div className="flex items-center gap-2 mb-1">
+          <Zap size={15} className="text-amber-500" />
+          <p className="text-sm font-semibold text-gray-800">スーパー別おすすめ組み合わせ</p>
+        </div>
+        <p className="text-xs text-gray-400 mb-3">クリックするとスーパー設定に自動適用されます</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+          {superBestByStore.map(({ store, rate, layers }) => (
+            <button key={store.id} onClick={() => applySupStore(store.id)}
+              className={`flex items-start gap-3 p-3 rounded-xl border transition-all text-left active:scale-95 ${
+                stacks.supermarket.store === store.id
+                  ? 'bg-blue-50 border-blue-200'
+                  : 'bg-gray-50 hover:bg-amber-50 border-gray-100 hover:border-amber-200'
+              }`}>
+              <span className="text-xl mt-0.5">{store.icon}</span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-semibold text-gray-700">{store.label}</span>
+                  {layers.length >= 2 && (
+                    <span className="badge text-white text-[10px]"
+                      style={{ backgroundColor: layers.length >= 3 ? '#7c3aed' : '#2563eb' }}>
+                      {STACK_LABELS[Math.min(layers.length, 3)]}
+                    </span>
+                  )}
+                  <span className="ml-auto text-xs font-bold text-amber-600">{(rate * 100).toFixed(1)}%</span>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {layers.map((l, i) => (
+                    <span key={i} className="flex items-center gap-0.5 text-[10px] px-1.5 py-0.5 rounded-md"
+                      style={{ backgroundColor: l.color + '18', color: l.color }}>
+                      {l.icon} {l.name} {(l.rate * 100).toFixed(1)}%
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Best combinations: コンビニ per store */}
