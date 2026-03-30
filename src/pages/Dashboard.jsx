@@ -4,7 +4,7 @@ import {
   PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
   LineChart, Line, XAxis, YAxis, CartesianGrid,
 } from 'recharts';
-import { AlertTriangle, TrendingUp, Star, Clock, ArrowRight, Wallet, Calculator, Monitor, HardDrive, LogIn, Share2 } from 'lucide-react';
+import { AlertTriangle, TrendingUp, Star, Clock, ArrowRight, Wallet, Calculator, Monitor, HardDrive, LogIn, Share2, Plane } from 'lucide-react';
 import { POINT_PROGRAMS, CAMPAIGNS } from '../data/pointPrograms';
 
 /* ── Sub-components ── */
@@ -219,7 +219,7 @@ export default function Dashboard({ points }) {
       {/* Quick actions */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <QuickAction label="ポイントを更新" sub="残高を入力"    to="/points"    icon={Wallet}      from="#2563eb" gradTo="#3b82f6" />
-        <QuickAction label="交換戦略を見る" sub="おすすめルート" to="/strategy" icon={TrendingUp}   from="#059669" gradTo="#10b981" />
+        <QuickAction label="マイル交換"     sub="マイル換算・特典航空券" to="/strategy" icon={Plane} from="#059669" gradTo="#10b981" />
         <QuickAction label="期限を確認"     sub="アラート一覧"  to="/alerts"   icon={Clock}        from="#d97706" gradTo="#f59e0b" />
         <QuickAction label="シミュレート"   sub="将来を予測"    to="/simulator" icon={Calculator}  from="#7c3aed" gradTo="#8b5cf6" />
       </div>
