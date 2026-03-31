@@ -28,7 +28,7 @@ export default function App() {
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard points={points} />} />
           <Route path="/points" element={<PointsManager points={points} onUpdateBalance={updateBalance} />} />
-          <Route path="/strategy" element={<Strategy points={points} />} />
+          <Route path="/strategy" element={<Strategy />} />
           <Route path="/alerts" element={<Alerts points={points} />} />
           <Route path="/campaigns" element={<Campaigns />} />
           <Route path="/simulator" element={<Simulator />} />
