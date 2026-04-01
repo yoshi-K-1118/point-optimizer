@@ -53,6 +53,7 @@ function SiteCard({ site }) {
               <p className="text-xs text-slate-500 mt-0.5">
                 1{site.pointUnit} = {site.pointToJpy >= 1 ? `${site.pointToJpy}円` : `${(site.pointToJpy * 100).toFixed(0)}銭`}
                 &ensp;·&ensp;最低交換: {site.minExchange.toLocaleString()}{site.pointUnit}
+                {site.since && <>&ensp;·&ensp;<span className="text-blue-500 font-medium">{site.since}年〜</span></>}
               </p>
             </div>
           </div>
