@@ -25,6 +25,13 @@ export const POINT_SITES = [
     description: 'ショッピング案件が充実。高還元ショップが多く上級者にも人気。',
     exchanges: ['rakuten', 'dpoint', 'ponta', 'vpoint', 'mileage_ana', 'mileage_jal'],
     url: 'https://hapitas.jp/',
+    adBanner: {
+      href:   'https://px.a8.net/svt/ejp?a8mat=4AZSSY-D3JBW2-1LP8-C8VWX',
+      src:    'https://www28.a8.net/svt/bgt?aid=260331154792&wid=001&eno=01&mid=s00000007478002057000&mat=4AZSSY-D3JBW2-1LP8-C8VWX',
+      pixel:  'https://www13.a8.net/0.gif?a8mat=4AZSSY-D3JBW2-1LP8-C8VWX',
+      width:  170,
+      height: 60,
+    },
   },
   {
     id: 'ecnavi',

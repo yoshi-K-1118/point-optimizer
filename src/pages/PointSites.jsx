@@ -79,6 +79,32 @@ function SiteCard({ site }) {
           </div>
         </div>
 
+        {/* A8.net アフィリエイトバナー */}
+        {site.adBanner && (
+          <div className="mt-3 flex justify-center">
+            <a
+              href={site.adBanner.href}
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+            >
+              <img
+                src={site.adBanner.src}
+                width={site.adBanner.width}
+                height={site.adBanner.height}
+                alt={`${site.name} 公式サイト`}
+                style={{ border: 0, display: 'block' }}
+              />
+            </a>
+            <img
+              src={site.adBanner.pixel}
+              width={1}
+              height={1}
+              alt=""
+              style={{ border: 0, display: 'none' }}
+            />
+          </div>
+        )}
+
         {/* Expand: top shops for this site */}
         <button
           onClick={() => setExpanded(!expanded)}
