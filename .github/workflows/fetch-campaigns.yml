@@ -34,3 +34,7 @@ jobs:
             git commit -m "chore: update campaigns data" &&
             git push
           )
+
+      - name: Vercel再デプロイをトリガー
+        if: ${{ secrets.VERCEL_DEPLOY_HOOK != '' }}
+        run: curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
