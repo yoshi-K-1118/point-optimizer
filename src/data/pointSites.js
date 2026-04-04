@@ -106,6 +106,15 @@ export const POINT_SITES = [
     description: '老舗ポイントサイト。クレジットカード発行案件の還元が高い。',
     exchanges: ['rakuten', 'ponta', 'mileage_ana', 'mileage_jal'],
     url: 'https://www.chobirich.com/',
+    adBanner: {
+      href:  'https://px.a8.net/svt/ejp?a8mat=4B1D5M+EWFKTU+389A+6EU6P',
+      src:   'https://www29.a8.net/svt/bgt?aid=260404186901&wid=001&eno=01&mid=s00000015067001077000&mc=1',
+      pixel: 'https://www12.a8.net/0.gif?a8mat=4B1D5M+EWFKTU+389A+6EU6P',
+      rel:   'nofollow',
+      width:  120,
+      height: 60,
+      alt:   'ちょびリッチ',
+    },
   },
   {
     id: 'ana_mileage_mall',
