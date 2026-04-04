@@ -1,21 +1,24 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Bell, ExternalLink, Clock, Tag } from 'lucide-react';
 import { POINT_PROGRAMS } from '../data/pointPrograms';
 import CAMPAIGNS from '../data/campaigns.json';
 
 export default function Campaigns() {
-  const navigate = useNavigate();
   const now = new Date();
 
   const active = useMemo(
-    () => CAMPAIGNS.filter((c) => new Date(c.endDate) >= now)
-      .sort((a, b) => new Date(a.endDate) - new Date(b.endDate)),
+    () => CAMPAIGNS.filter((c) => !c.endDate || new Date(c.endDate) >= now)
+      .sort((a, b) => {
+        if (!a.endDate && !b.endDate) return 0;
+        if (!a.endDate) return 1;
+        if (!b.endDate) return -1;
+        return new Date(a.endDate) - new Date(b.endDate);
+      }),
     []
   );
 
   const expired = useMemo(
-    () => CAMPAIGNS.filter((c) => new Date(c.endDate) < now)
+    () => CAMPAIGNS.filter((c) => c.endDate && new Date(c.endDate) < now)
       .sort((a, b) => new Date(b.endDate) - new Date(a.endDate)),
     []
   );
@@ -26,8 +29,9 @@ export default function Campaigns() {
 
   function CampaignCard({ c, isExpired }) {
     const prog = POINT_PROGRAMS.find((p) => p.id === c.programId);
-    const days = isExpired ? 0 : daysLeft(c.endDate);
-    const urgent = !isExpired && days <= 7;
+    const hasEndDate = !!c.endDate;
+    const days = hasEndDate && !isExpired ? daysLeft(c.endDate) : null;
+    const urgent = days !== null && days <= 7;
 
     return (
       <div className={`card p-4 flex gap-4 ${isExpired ? 'opacity-50' : ''}`}>
@@ -47,27 +51,36 @@ export default function Campaigns() {
                 {c.description}
               </p>
             </div>
-            <span
-              className="badge text-white text-[10px] flex-shrink-0"
-              style={{ backgroundColor: prog?.color ?? '#94a3b8' }}
-            >
-              <Tag size={9} className="mr-0.5" />
-              最大{c.multiplier}倍
-            </span>
+            {c.multiplier > 0 && (
+              <span
+                className="badge text-white text-[10px] flex-shrink-0"
+                style={{ backgroundColor: prog?.color ?? '#94a3b8' }}
+              >
+                <Tag size={9} className="mr-0.5" />
+                最大{c.multiplier}倍
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-3 mt-2 flex-wrap">
-            <span className={`flex items-center gap-1 text-xs font-medium ${
-              isExpired ? 'text-gray-400' :
-              urgent ? 'text-red-500' : 'text-amber-500'
-            }`}>
-              <Clock size={11} />
-              {isExpired
-                ? `終了 (${c.endDate})`
-                : urgent
-                  ? `残り ${days} 日 — お急ぎください`
-                  : `残り ${days} 日 (${c.endDate}まで)`
-              }
-            </span>
+            {hasEndDate ? (
+              <span className={`flex items-center gap-1 text-xs font-medium ${
+                isExpired ? 'text-gray-400' :
+                urgent ? 'text-red-500' : 'text-amber-500'
+              }`}>
+                <Clock size={11} />
+                {isExpired
+                  ? `終了 (${c.endDate})`
+                  : urgent
+                    ? `残り ${days} 日 — お急ぎください`
+                    : `残り ${days} 日 (${c.endDate}まで)`
+                }
+              </span>
+            ) : (
+              <span className="flex items-center gap-1 text-xs font-medium text-green-500">
+                <Clock size={11} />
+                随時開催中
+              </span>
+            )}
             {c.url && c.url !== '#' && (
               <a
                 href={c.url}
@@ -90,7 +103,7 @@ export default function Campaigns() {
       <div>
         <h1 className="page-title flex items-center gap-2">
           <Bell size={22} className="text-blue-500" />
-          キャンペーン一覧
+          キャンペーン情報
         </h1>
         <p className="page-sub">各ポイントプログラムの開催中・終了キャンペーン情報</p>
       </div>

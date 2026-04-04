@@ -141,7 +141,7 @@ async function main() {
       endDate:     row[idxOf('enddate')] || '',
       url:         row[idxOf('url')] || '#',
     }))
-    .filter((c) => c.title && c.endDate);
+    .filter((c) => c.title);
 
   fs.writeFileSync(OUT_PATH, JSON.stringify(campaigns, null, 2) + '\n', 'utf8');
   console.log(`Wrote ${campaigns.length} campaigns to ${OUT_PATH}`);
