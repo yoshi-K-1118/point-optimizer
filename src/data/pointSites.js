@@ -76,6 +76,15 @@ export const POINT_SITES = [
     description: 'アンケート・動画広告案件が豊富。隙間時間に貯めやすい。',
     exchanges: ['rakuten', 'dpoint', 'ponta', 'paypay'],
     url: 'https://pointi.jp/',
+    adBanner: {
+      href:  'https://px.a8.net/svt/ejp?a8mat=4B1D5M+FMMNG2+5JWO+5Z6WX',
+      src:   'https://www26.a8.net/svt/bgt?aid=260404186945&wid=001&eno=01&mid=s00000025908001004000&mc=1',
+      pixel: 'https://www17.a8.net/0.gif?a8mat=4B1D5M+FMMNG2+5JWO+5Z6WX',
+      rel:   'nofollow',
+      width:  100,
+      height: 60,
+      alt:   'ポイントインカム',
+    },
   },
   {
     id: 'chobirich',
