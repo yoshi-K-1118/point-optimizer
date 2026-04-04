@@ -34,5 +34,14 @@
     "multiplier": 1,
     "endDate": "",
     "url": "https://tsite.jp/"
+  },
+  {
+    "id": 5,
+    "programId": "vpoint",
+    "title": "Vポイント",
+    "description": "はま寿司でVポイント最大7倍♪",
+    "multiplier": 7,
+    "endDate": "2026-04-30",
+    "url": "https://web.tsite.jp/app/push/zensho260326_hama/?hensei=tsite_pic"
   }
 ]
