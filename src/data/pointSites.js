@@ -128,7 +128,7 @@ export const POINT_SITES = [
   },
   {
     id: 'getmoney',
-    name: 'ゲットマネー',
+    name: 'GetMoney',
     icon: '💴',
     color: '#00873c',
     pointToJpy: 0.1,        // 10P = 1円
@@ -137,7 +137,7 @@ export const POINT_SITES = [
     since: 1999,
     description: 'バリューコマース運営。1999年開始の日本最古参ポイントサイトの一つ。クレジットカード・金融案件の高還元が魅力。',
     exchanges: ['rakuten', 'dpoint', 'ponta', 'paypay', 'mileage_ana', 'mileage_jal'],
-    url: 'https://get-money.jp/',
+    url: 'https://dietnavi.com/pc/',
   },
   {
     id: 'lifemedia',
