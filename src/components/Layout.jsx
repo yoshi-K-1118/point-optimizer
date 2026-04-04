@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Wallet, Bell, Calculator, Menu, X, BookOpen, Globe,
   CreditCard, BarChart2, ShieldCheck, FileText, Mail, Sun, Moon, Gift, Plane, LineChart,
@@ -78,6 +78,7 @@ function NavGroup({ title, items, onClose }) {
 export default function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useDarkMode();
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex" style={{ background: 'var(--color-bg)' }}>
@@ -87,7 +88,7 @@ export default function Layout({ children }) {
 
         {/* Logo */}
         <div className="px-5 pt-5 pb-4 border-b border-slate-800/60">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/dashboard')}>
             <div className="relative w-9 h-9">
               <div className="absolute inset-0 rounded-xl bg-blue-500 opacity-20 blur-sm" />
               <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-900/40">
@@ -130,7 +131,7 @@ export default function Layout({ children }) {
 
         {/* Mobile Header */}
         <header className="md:hidden flex items-center justify-between px-4 py-3 bg-slate-950 border-b border-slate-800/60 z-20">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navigate('/dashboard')}>
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-md">
               <span className="text-white text-xs font-black">P</span>
             </div>
