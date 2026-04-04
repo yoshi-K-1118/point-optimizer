@@ -120,7 +120,7 @@ export const POINT_SITES = [
   },
   {
     id: 'getmoney',
-    name: 'ゲットマネー',
+    name: 'げん玉',
     icon: '💴',
     color: '#00873c',
     pointToJpy: 0.1,        // 10P = 1円
