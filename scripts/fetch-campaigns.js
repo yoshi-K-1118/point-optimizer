@@ -11,17 +11,19 @@
  *   id | programId | title | description | multiplier | endDate | url
  */
 
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
+import https from 'https';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const SHEET_ID = process.env.GOOGLE_SHEET_ID;
 const GID = process.env.GOOGLE_SHEET_GID || '0';
 const OUT_PATH = path.join(__dirname, '../src/data/campaigns.json');
 
 if (!SHEET_ID) {
-  console.error('Error: GOOGLE_SHEET_ID environment variable is required');
-  console.error('GOOGLE_SHEET_ID is:', SHEET_ID ? 'set' : 'NOT SET');
+  console.error('Error: GOOGLE_SHEET_ID environment variable is NOT SET');
   process.exit(1);
 }
 
