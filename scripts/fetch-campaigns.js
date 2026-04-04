@@ -119,6 +119,9 @@ async function main() {
   const csv = await fetchUrl(csvUrl);
   const rows = parseCsv(csv);
 
+  console.log('Response preview:', csv.slice(0, 300));
+  console.log('Row count:', rows.length);
+
   if (rows.length < 2) {
     console.error('Error: CSV has no data rows');
     process.exit(1);
