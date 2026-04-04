@@ -245,6 +245,20 @@ export default function PointInvestSim() {
         </p>
       </div>
 
+      {/* ── 免責バナー ── */}
+      <div className="rounded-xl border border-amber-300 bg-amber-50 dark:bg-amber-900/15 dark:border-amber-700/50 px-4 py-3.5 flex items-start gap-3">
+        <AlertTriangle size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+        <div>
+          <p className="text-sm font-bold text-amber-700 dark:text-amber-400">
+            シミュレーション結果はあくまで目安です
+          </p>
+          <p className="text-xs text-amber-600 dark:text-amber-500 mt-1 leading-relaxed">
+            表示される年率・運用益は過去の実績や各サービスの参考値をもとにした<strong>試算値</strong>であり、将来の運用成果を一切保証するものではありません。
+            実際の運用では市場環境により元本を下回る場合があります。投資判断はご自身の責任のもとでお願いします。
+          </p>
+        </div>
+      </div>
+
       {/* ── サービス選択 ── */}
       <div className="card p-5">
         <p className="section-title mb-3">サービスを選択</p>
