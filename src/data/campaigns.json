@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "id": 1,
+    "programId": "rakuten",
+    "title": "楽天ポイント",
+    "description": "各キャンペーン",
+    "multiplier": 1,
+    "endDate": "",
+    "url": "https://point.rakuten.co.jp/campaign/?l-id=point_header_campaign"
+  },
+  {
+    "id": 2,
+    "programId": "dpoint",
+    "title": "dポイント",
+    "description": "各キャンペーン",
+    "multiplier": 1,
+    "endDate": "",
+    "url": "https://dpoint.docomo.ne.jp/index.html"
+  },
+  {
+    "id": 3,
+    "programId": "ponta",
+    "title": "Pontaポイント",
+    "description": "各キャンペーン",
+    "multiplier": 1,
+    "endDate": "",
+    "url": "https://point.recruit.co.jp/point/"
+  },
+  {
+    "id": 4,
+    "programId": "vpoint",
+    "title": "Vポイント",
+    "description": "各キャンペーン",
+    "multiplier": 1,
+    "endDate": "",
+    "url": "https://tsite.jp/"
+  }
+]
