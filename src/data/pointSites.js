@@ -135,7 +135,7 @@ export const POINT_SITES = [
     pointUnit: 'P',
     minExchange: 3000,
     since: 1999,
-    description: 'バリューコマース運営。1999年開始の日本最古参ポイントサイトの一つ。クレジットカード・金融案件の高還元が魅力。',
+    description: 'インフォニア株式会社運営。1999年設立の老舗企業によるポイントサイト。クレジットカード・金融案件の高還元が魅力。',
     exchanges: ['rakuten', 'dpoint', 'ponta', 'paypay', 'mileage_ana', 'mileage_jal'],
     url: 'https://dietnavi.com/pc/',
   },
