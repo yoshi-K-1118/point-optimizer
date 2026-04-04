@@ -130,6 +130,14 @@ export const POINT_SITES = [
     description: 'バリューコマース運営。1999年開始の日本最古参ポイントサイトの一つ。クレジットカード・金融案件の高還元が魅力。',
     exchanges: ['rakuten', 'dpoint', 'ponta', 'paypay', 'mileage_ana', 'mileage_jal'],
     url: 'https://get-money.jp/',
+    adBanner: {
+      href:   'https://h.accesstrade.net/sp/cc?rk=0100puwv00oq56',
+      src:    'https://h.accesstrade.net/sp/rr?rk=0100puwv00oq56',
+      rel:    'nofollow',
+      width:  120,
+      height: 60,
+      alt:    'げん玉',
+    },
   },
   {
     id: 'lifemedia',
