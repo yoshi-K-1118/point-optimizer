@@ -21,8 +21,12 @@ const OUT_PATH = path.join(__dirname, '../src/data/campaigns.json');
 
 if (!SHEET_ID) {
   console.error('Error: GOOGLE_SHEET_ID environment variable is required');
+  console.error('GOOGLE_SHEET_ID is:', SHEET_ID ? 'set' : 'NOT SET');
   process.exit(1);
 }
+
+console.log('GOOGLE_SHEET_ID:', SHEET_ID.slice(0, 6) + '...' + SHEET_ID.slice(-4));
+console.log('GOOGLE_SHEET_GID:', GID);
 
 const csvUrl =
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${GID}`;
