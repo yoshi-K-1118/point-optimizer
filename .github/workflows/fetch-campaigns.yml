@@ -36,5 +36,6 @@ jobs:
           )
 
       - name: Vercel再デプロイをトリガー
-        if: ${{ secrets.VERCEL_DEPLOY_HOOK != '' }}
-        run: curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
+        run: |
+          HOOK="${{ secrets.VERCEL_DEPLOY_HOOK }}"
+          if [ -n "$HOOK" ]; then curl -X POST "$HOOK"; else echo "VERCEL_DEPLOY_HOOK未設定のためスキップ"; fi
