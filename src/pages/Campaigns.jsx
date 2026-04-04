@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bell, ExternalLink, Clock, Tag } from 'lucide-react';
-import { CAMPAIGNS, POINT_PROGRAMS } from '../data/pointPrograms';
+import { POINT_PROGRAMS } from '../data/pointPrograms';
+import CAMPAIGNS from '../data/campaigns.json';
 
 export default function Campaigns() {
   const navigate = useNavigate();

@@ -8,7 +8,8 @@ import {
   AlertTriangle, TrendingUp, Star, Clock, ArrowRight, Wallet,
   Calculator, Monitor, HardDrive, LogIn, Share2, Plane,
 } from 'lucide-react';
-import { POINT_PROGRAMS, CAMPAIGNS } from '../data/pointPrograms';
+import { POINT_PROGRAMS } from '../data/pointPrograms';
+import CAMPAIGNS from '../data/campaigns.json';
 
 /* ── Sub-components ── */
 
