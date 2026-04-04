@@ -199,11 +199,14 @@ function ChartTooltip({ active, payload, label }) {
 
 // ─── メイン ──────────────────────────────────────────────
 export default function PointInvestSim() {
-  const [serviceId,  setServiceId]  = useState('rakuten');
-  const [courseId,   setCourseId]   = useState('active');
-  const [initialPts, setInitialPts] = useState(10000);
-  const [monthlyPts, setMonthlyPts] = useState(1000);
-  const [years,      setYears]      = useState(10);
+  const [serviceId,     setServiceId]     = useState('rakuten');
+  const [courseId,      setCourseId]      = useState('active');
+  const [initialPtsStr, setInitialPtsStr] = useState('10000');
+  const [monthlyPtsStr, setMonthlyPtsStr] = useState('1000');
+  const [years,         setYears]         = useState(10);
+
+  const initialPts = Math.max(0, parseInt(initialPtsStr) || 0);
+  const monthlyPts = Math.max(0, parseInt(monthlyPtsStr) || 0);
 
   const service = SERVICES.find((s) => s.id === serviceId);
   const course  = service.courses.find((c) => c.id === courseId) ?? service.courses[0];
@@ -401,10 +404,11 @@ export default function PointInvestSim() {
                   <input
                     type="number"
                     className="input pr-8"
-                    value={initialPts}
+                    value={initialPtsStr}
                     min={0}
                     step={100}
-                    onChange={(e) => setInitialPts(Math.max(0, parseInt(e.target.value) || 0))}
+                    onChange={(e) => setInitialPtsStr(e.target.value)}
+                    onBlur={(e) => setInitialPtsStr(String(Math.max(0, parseInt(e.target.value) || 0)))}
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs" style={{ color: 'var(--color-text-muted)' }}>pt</span>
                 </div>
@@ -418,10 +422,11 @@ export default function PointInvestSim() {
                   <input
                     type="number"
                     className="input pr-8"
-                    value={monthlyPts}
+                    value={monthlyPtsStr}
                     min={0}
                     step={100}
-                    onChange={(e) => setMonthlyPts(Math.max(0, parseInt(e.target.value) || 0))}
+                    onChange={(e) => setMonthlyPtsStr(e.target.value)}
+                    onBlur={(e) => setMonthlyPtsStr(String(Math.max(0, parseInt(e.target.value) || 0)))}
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs" style={{ color: 'var(--color-text-muted)' }}>pt/月</span>
                 </div>
