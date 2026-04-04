@@ -11,7 +11,7 @@ const NAV_ITEMS = [
   { to: '/points',     label: 'ポイント管理',       icon: Wallet },
   { to: '/alerts',     label: '期限アラート',       icon: Bell },
   { to: '/simulator',  label: 'シミュレーター',     icon: Calculator },
-  { to: '/campaigns',  label: 'キャンペーン',       icon: Gift },
+  { to: '/campaigns',  label: 'キャンペーン情報',   icon: Gift, note: '運営者が不定期で情報を更新' },
   { to: '/pointsites', label: 'ポイントサイト活用', icon: Globe },
   { to: '/cards',      label: 'クレジットカード',   icon: CreditCard },
   { to: '/invest',     label: 'ポイント運用',           icon: BarChart2 },
@@ -35,36 +35,40 @@ function NavGroup({ title, items, onClose }) {
     <div className="px-3 py-2">
       <p className="section-title px-2 pb-1.5">{title}</p>
       <div className="space-y-0.5">
-        {items.map(({ to, label, icon: Icon }) => (
-          <NavLink
-            key={to}
-            to={to}
-            onClick={onClose}
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group relative ${
-                isActive
-                  ? 'bg-blue-600/15 text-blue-400'
-                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
-              }`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                {isActive && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-blue-400 rounded-full" />
-                )}
-                <Icon
-                  size={15}
-                  className={
-                    isActive
-                      ? 'text-blue-400'
-                      : 'text-slate-500 group-hover:text-slate-300 transition-colors'
-                  }
-                />
-                {label}
-              </>
+        {items.map(({ to, label, icon: Icon, note }) => (
+          <div key={to}>
+            <NavLink
+              to={to}
+              onClick={onClose}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group relative ${
+                  isActive
+                    ? 'bg-blue-600/15 text-blue-400'
+                    : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                }`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  {isActive && (
+                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-blue-400 rounded-full" />
+                  )}
+                  <Icon
+                    size={15}
+                    className={
+                      isActive
+                        ? 'text-blue-400'
+                        : 'text-slate-500 group-hover:text-slate-300 transition-colors'
+                    }
+                  />
+                  {label}
+                </>
+              )}
+            </NavLink>
+            {note && (
+              <p className="px-3 pb-1 text-[10px] text-slate-600 leading-tight">※{note}</p>
             )}
-          </NavLink>
+          </div>
         ))}
       </div>
     </div>
