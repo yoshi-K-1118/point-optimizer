@@ -44,6 +44,15 @@ export const POINT_SITES = [
     description: 'VOYAGE GROUP運営。ショッピング特化で還元率が高いショップも多い。',
     exchanges: ['rakuten', 'ponta', 'mileage_ana'],
     url: 'https://ecnavi.jp/',
+    adBanner: {
+      href:  'https://px.a8.net/svt/ejp?a8mat=4B1D5M+FOEY9E+3NOK+609HT',
+      src:   'https://www23.a8.net/svt/bgt?aid=260404186948&wid=001&eno=01&mid=s00000017066001009000&mc=1',
+      pixel: 'https://www18.a8.net/0.gif?a8mat=4B1D5M+FOEY9E+3NOK+609HT',
+      rel:   'nofollow',
+      width:  120,
+      height: 60,
+      alt:   'ECナビ',
+    },
   },
   {
     id: 'gendama',
