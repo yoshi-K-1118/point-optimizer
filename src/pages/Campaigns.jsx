@@ -110,7 +110,7 @@ export default function Campaigns() {
 
       {/* Notice */}
       <div className="rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3 text-xs text-amber-700">
-        キャンペーン情報は参考情報です。最新の条件・期間は各ポイントプログラムの公式サイトでご確認ください。
+        キャンペーン情報は参考情報です。最新の条件・期間は各ポイントプログラムの公式サイトでご確認ください。詳細を見るのリンク先は、ログインが必要な場合があります。
       </div>
 
       {/* Active campaigns */}
