@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, Wallet, Bell, Calculator, Menu, X, BookOpen, Globe,
-  CreditCard, BarChart2, ShieldCheck, FileText, Mail, Sun, Moon, Gift, Plane,
+  CreditCard, BarChart2, ShieldCheck, FileText, Mail, Sun, Moon, Gift, Plane, LineChart,
 } from 'lucide-react';
 import { useDarkMode } from '../hooks/useDarkMode';
 
@@ -14,8 +14,9 @@ const NAV_ITEMS = [
   { to: '/campaigns',  label: 'キャンペーン',       icon: Gift },
   { to: '/pointsites', label: 'ポイントサイト活用', icon: Globe },
   { to: '/cards',      label: 'クレジットカード',   icon: CreditCard },
-  { to: '/invest',     label: 'ポイント運用',       icon: BarChart2 },
-  { to: '/strategy',   label: 'マイル交換',         icon: Plane },
+  { to: '/invest',     label: 'ポイント運用',           icon: BarChart2 },
+  { to: '/invest-sim', label: '運用シミュレーター', icon: LineChart },
+  { to: '/strategy',   label: 'マイル交換',           icon: Plane },
 ];
 
 const LEGAL_ITEMS = [

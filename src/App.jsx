@@ -9,6 +9,7 @@ import HowToUse from './pages/HowToUse';
 import PointSites from './pages/PointSites';
 import CreditCards from './pages/CreditCards';
 import PointInvest from './pages/PointInvest';
+import PointInvestSim from './pages/PointInvestSim';
 import Disclaimer from './pages/Disclaimer';
 import Contact from './pages/Contact';
 import PrivacyPolicy from './pages/PrivacyPolicy';
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/pointsites" element={<PointSites />} />
           <Route path="/cards" element={<CreditCards />} />
           <Route path="/invest" element={<PointInvest />} />
+          <Route path="/invest-sim" element={<PointInvestSim />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
