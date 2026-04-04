@@ -57,14 +57,16 @@ function SiteCard({ site }) {
               </p>
             </div>
           </div>
-          <a
-            href={site.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-shrink-0 p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-          >
-            <ExternalLink size={15} />
-          </a>
+          {!site.adBanner && (
+            <a
+              href={site.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+            >
+              <ExternalLink size={15} />
+            </a>
+          )}
         </div>
 
         <p className="text-sm text-slate-600 mt-3 leading-relaxed">{site.description}</p>
