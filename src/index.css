@@ -19,8 +19,8 @@
 }
 
 html.dark {
-  --color-bg:           #0b1120;
-  --color-card-bg:      #151f32;
+  --color-bg:           #111827;
+  --color-card-bg:      #1a2438;
   --color-card-border:  rgb(30 41 59);
   --color-card-shadow:  0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.2);
   --color-text-primary: #f1f5f9;
