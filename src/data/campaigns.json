@@ -3,7 +3,7 @@
     "id": 1,
     "programId": "rakuten",
     "title": "楽天ポイント",
-    "description": "各キャンペーン",
+    "description": "各種キャンペーン",
     "multiplier": 1,
     "endDate": "",
     "url": "https://point.rakuten.co.jp/campaign/?l-id=point_header_campaign"
@@ -43,5 +43,32 @@
     "multiplier": 7,
     "endDate": "2026-04-30",
     "url": "https://web.tsite.jp/app/push/zensho260326_hama/?hensei=tsite_pic"
+  },
+  {
+    "id": 6,
+    "programId": "dpoint",
+    "title": "dポイント",
+    "description": "すき家ポイント2~15倍来店キャンペーン",
+    "multiplier": 15,
+    "endDate": "",
+    "url": "https://dpoint.docomo.ne.jp/cp_7/zensho_260401_7301/index.html?utm_source=dpointclub&utm_medium=owned&utm_campaign=dpc_202604_7301"
+  },
+  {
+    "id": 7,
+    "programId": "dpoint",
+    "title": "dポイント",
+    "description": "はま寿司ポイント5~7倍来店キャンペーン",
+    "multiplier": 7,
+    "endDate": "",
+    "url": "https://dpoint.docomo.ne.jp/cp_7/zensho_260401_7393/index.html?utm_source=dpointclub&utm_medium=owned&utm_campaign=dpc_202604_7393"
+  },
+  {
+    "id": 8,
+    "programId": "ponta",
+    "title": "Pontaポイント",
+    "description": "サンリブポイント5倍(条件あり）",
+    "multiplier": 5,
+    "endDate": "2026-04-30",
+    "url": "https://www.ponta.jp/c/campaign/sunlive_2604/?utm_source=pontaweb&utm_medium=optimizer&utm_campaign=sunlive_2604&vos=pppjpswpw042604010401260404001&dspn=3Z9J-IqMXREUDwMRLMq5c-d1xy22tsn3gdymx4K8XqAzk_r0gK6QG8aI8-KVqYA7O4c-titJvYCNie60UEBS7f_vQbvBrzMu-CEoyJb2Hus"
   }
 ]
