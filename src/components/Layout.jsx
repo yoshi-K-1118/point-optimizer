@@ -162,19 +162,17 @@ export default function Layout({ children }) {
             {children}
           </div>
 
-          {/* Related Apps */}
+          {/* My Apps */}
           <div className="max-w-5xl mx-auto px-4 md:px-6 pb-8">
             <div className="border-t border-slate-200/10 pt-5">
-              <p className="text-[11px] text-slate-500 mb-3 flex items-center gap-1.5">
-                <span>📱</span> 関連アプリ
-              </p>
+              <p className="text-[11px] text-slate-500 mb-3">管理者作成アプリ</p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {[
-                  { name: 'SubsManager', url: 'https://apps.apple.com/jp/app/subsmanager/id6760018915' },
-                  { name: 'FaceNote',    url: 'https://apps.apple.com/jp/app/facenote/id6760473491' },
-                  { name: '禁煙くん',    url: 'https://apps.apple.com/jp/app/%E7%A6%81%E7%85%99%E3%81%8F%E3%82%93/id6760255111' },
-                  { name: 'Gomidashi',   url: 'https://apps.apple.com/jp/app/gomidashi/id6760887454' },
-                ].map(({ name, url }) => (
+                  { name: 'SubsManager', url: 'https://apps.apple.com/jp/app/subsmanager/id6760018915',           icon: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/55/fd/76/55fd7601-254e-16f5-a723-5a4d8d8deb39/AppIcon-0-0-1x_U007epad-0-1-85-220.png/100x100bb.jpg' },
+                  { name: 'FaceNote',    url: 'https://apps.apple.com/jp/app/facenote/id6760473491',             icon: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/b4/98/5d/b4985dd0-7c8d-6358-9232-5b255a3622b9/AppIcon-0-0-1x_U007epad-0-1-85-220.png/100x100bb.jpg' },
+                  { name: '禁煙くん',    url: 'https://apps.apple.com/jp/app/%E7%A6%81%E7%85%99%E3%81%8F%E3%82%93/id6760255111', icon: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/36/6e/63/366e63c4-8735-e6b4-269a-92a3592afb19/AppIcon-0-0-1x_U007epad-0-1-85-220.png/100x100bb.jpg' },
+                  { name: 'Gomidashi',   url: 'https://apps.apple.com/jp/app/gomidashi/id6760887454',            icon: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/6d/24/1e/6d241e6b-5acf-7e86-8366-b1b17981f81c/AppIcon-0-0-1x_U007epad-0-1-85-220.png/100x100bb.jpg' },
+                ].map(({ name, url, icon }) => (
                   <a
                     key={name}
                     href={url}
@@ -182,9 +180,13 @@ export default function Layout({ children }) {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-700/40 hover:border-slate-500/60 hover:bg-slate-800/30 transition-all duration-150 group"
                   >
-                    <div className="w-7 h-7 rounded-lg bg-slate-700/50 flex items-center justify-center flex-shrink-0 text-[13px]">
-                      📲
-                    </div>
+                    <img
+                      src={icon}
+                      alt={name}
+                      width={28}
+                      height={28}
+                      className="rounded-lg flex-shrink-0"
+                    />
                     <span className="text-[11px] text-slate-400 group-hover:text-slate-200 transition-colors leading-tight font-medium truncate">
                       {name}
                     </span>
