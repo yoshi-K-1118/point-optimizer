@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
 } from 'recharts';
@@ -194,7 +195,8 @@ const ChartTooltip = ({ active, payload, label }) => {
 
 /* ── メインコンポーネント ── */
 export default function Simulator() {
-  const [spending, setSpending] = useState(
+  const [spending, setSpending] = useLocalStorage(
+    'simulator-spending',
     Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, c.monthlyDefault]))
   );
   const [stacks, setStacks] = useState(
@@ -243,6 +245,10 @@ export default function Simulator() {
   const totalMonthlyPoints = simulation.reduce((s, p) => s + p.monthlyPoints, 0);
   const totalJpy = simulation.filter(p => p.programId !== 'site').reduce((s, p) => s + p.jpy, 0);
   const siteBonus = (simulation.find(p => p.programId === 'site')?.jpy ?? 0);
+
+  useEffect(() => {
+    localStorage.setItem('simulator-monthly-points', JSON.stringify(totalMonthlyPoints));
+  }, [totalMonthlyPoints]);
 
   /* コンビニ: ストア別おすすめ */
   const convBestByStore = useMemo(() =>

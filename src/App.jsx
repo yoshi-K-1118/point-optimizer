@@ -15,6 +15,7 @@ import Contact from './pages/Contact';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import Campaigns from './pages/Campaigns';
+import Kakeibo from './pages/Kakeibo';
 import NotFound from './pages/NotFound';
 import CookieBanner from './components/CookieBanner';
 import { usePoints } from './hooks/usePoints';
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/alerts" element={<Alerts points={points} />} />
           <Route path="/campaigns" element={<Campaigns />} />
           <Route path="/simulator" element={<Simulator />} />
+          <Route path="/kakeibo" element={<Kakeibo />} />
           <Route path="/pointsites" element={<PointSites />} />
           <Route path="/cards" element={<CreditCards />} />
           <Route path="/invest" element={<PointInvest />} />

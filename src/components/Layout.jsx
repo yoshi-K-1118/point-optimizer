@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Wallet, Bell, Calculator, Menu, X, BookOpen, Globe,
-  CreditCard, BarChart2, ShieldCheck, FileText, Mail, Sun, Moon, Gift, Plane, LineChart,
+  CreditCard, BarChart2, ShieldCheck, FileText, Mail, Sun, Moon, Gift, Plane, LineChart, NotebookPen,
 } from 'lucide-react';
 import { useDarkMode } from '../hooks/useDarkMode';
 
@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { to: '/points',     label: 'ポイント管理',       icon: Wallet },
   { to: '/alerts',     label: '期限アラート',       icon: Bell },
   { to: '/simulator',  label: 'シミュレーター',     icon: Calculator },
+  { to: '/kakeibo',   label: 'ポイ活家計簿',       icon: NotebookPen },
   { to: '/campaigns',  label: 'キャンペーン情報',   icon: Gift, note: '運営者が不定期で情報を更新' },
   { to: '/pointsites', label: 'ポイントサイト活用', icon: Globe },
   { to: '/cards',      label: 'クレジットカード',   icon: CreditCard },
