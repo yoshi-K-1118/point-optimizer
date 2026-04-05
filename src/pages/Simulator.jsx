@@ -286,7 +286,7 @@ export default function Simulator() {
   const bestCombos = useMemo(() =>
     SPENDING_CATEGORIES.filter(c => c.id !== 'convenience' && c.id !== 'supermarket').map(cat => {
       let best = { rate: 0, payment: PAYMENT_OPTIONS[0], loyalty: LOYALTY_OPTIONS[0], site: POINTSITE_OPTIONS[0] };
-      const loyaltyCheck = cat.id === 'online' ? [LOYALTY_OPTIONS[0]] : LOYALTY_OPTIONS;
+      const loyaltyCheck = (cat.id === 'online' || cat.id === 'insurance' || cat.id === 'tax') ? [LOYALTY_OPTIONS[0]] : LOYALTY_OPTIONS;
       const siteCheck = cat.id === 'online' ? POINTSITE_OPTIONS : [POINTSITE_OPTIONS[0]];
       PAYMENT_OPTIONS.forEach(pay =>
         loyaltyCheck.forEach(loy =>
@@ -471,8 +471,8 @@ export default function Simulator() {
                   </select>
                 </div>
 
-                {/* Layer 2: ポイントカード提示 (ネット通販を除く) */}
-                {cat.id !== 'online' && (
+                {/* Layer 2: ポイントカード提示 (ネット通販・保険・税金を除く) */}
+                {cat.id !== 'online' && cat.id !== 'insurance' && cat.id !== 'tax' && (
                   <div>
                     <p className="text-[10px] text-gray-400 font-semibold mb-1">🎫 ポイントカード提示</p>
                     <select value={stacks[cat.id].loyalty}
