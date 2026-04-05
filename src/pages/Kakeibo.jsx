@@ -143,40 +143,44 @@ export default function Kakeibo() {
               <Plus size={13} /> 追加
             </button>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-3">
             {incomes.map(income => (
-              <div key={income.id} className="flex items-center gap-2">
-                <select
-                  value={income.categoryId}
-                  onChange={e => updateIncomeField(income.id, 'categoryId', e.target.value)}
-                  className="input text-xs py-1.5 w-28 flex-shrink-0"
-                >
-                  {INCOME_CATEGORIES.map(c => (
-                    <option key={c.id} value={c.id}>{c.icon} {c.label}</option>
-                  ))}
-                </select>
-                <input
-                  type="text"
-                  placeholder="内容"
-                  value={income.label}
-                  onChange={e => updateIncomeField(income.id, 'label', e.target.value)}
-                  className="input text-xs py-1.5 flex-1 min-w-0"
-                />
-                <div className="relative flex-shrink-0 w-32">
+              <div key={income.id} className="space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <select
+                    value={income.categoryId}
+                    onChange={e => updateIncomeField(income.id, 'categoryId', e.target.value)}
+                    className="input text-xs py-1.5 flex-shrink-0 w-28"
+                  >
+                    {INCOME_CATEGORIES.map(c => (
+                      <option key={c.id} value={c.id}>{c.icon} {c.label}</option>
+                    ))}
+                  </select>
                   <input
                     type="text"
-                    inputMode="numeric"
-                    value={amountStrs[income.id] ?? ''}
-                    onChange={e => handleAmountChange(income.id, e.target.value)}
-                    onBlur={e => handleAmountBlur(income.id, e.target.value)}
-                    className="input text-xs py-1.5 pr-6"
-                    placeholder="0"
+                    placeholder="内容"
+                    value={income.label}
+                    onChange={e => updateIncomeField(income.id, 'label', e.target.value)}
+                    className="input text-xs py-1.5 flex-1 min-w-0"
                   />
-                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px]" style={{ color: 'var(--color-text-muted)' }}>円</span>
                 </div>
-                <button onClick={() => removeIncome(income.id)} className="text-slate-400 hover:text-red-400 flex-shrink-0">
-                  <Trash2 size={14} />
-                </button>
+                <div className="flex items-center gap-2">
+                  <div className="relative flex-1">
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      value={amountStrs[income.id] ?? ''}
+                      onChange={e => handleAmountChange(income.id, e.target.value)}
+                      onBlur={e => handleAmountBlur(income.id, e.target.value)}
+                      className="input text-xs py-1.5 pr-6 w-full"
+                      placeholder="0"
+                    />
+                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px]" style={{ color: 'var(--color-text-muted)' }}>円</span>
+                  </div>
+                  <button onClick={() => removeIncome(income.id)} className="text-slate-400 hover:text-red-400 flex-shrink-0">
+                    <Trash2 size={14} />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
