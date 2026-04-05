@@ -15,6 +15,8 @@ const SPENDING_CATEGORIES = [
   { id: 'travel',      label: '旅行・交通', icon: '🚅', color: '#8b5cf6' },
   { id: 'gas',         label: 'ガソリン',   icon: '⛽', color: '#f97316' },
   { id: 'utility',     label: '公共料金',   icon: '💡', color: '#64748b' },
+  { id: 'insurance',   label: '保険',       icon: '🛡️', color: '#0ea5e9' },
+  { id: 'tax',         label: '税金',       icon: '🏦', color: '#a855f7' },
 ];
 
 const INCOME_CATEGORIES = [

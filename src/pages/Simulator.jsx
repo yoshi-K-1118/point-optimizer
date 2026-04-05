@@ -15,6 +15,8 @@ const SPENDING_CATEGORIES = [
   { id: 'travel',      label: '旅行・交通', icon: '🚅', monthlyDefault: 10000 },
   { id: 'gas',         label: 'ガソリン',   icon: '⛽', monthlyDefault: 8000 },
   { id: 'utility',     label: '公共料金',   icon: '💡', monthlyDefault: 20000 },
+  { id: 'insurance',   label: '保険',       icon: '🛡️', monthlyDefault: 20000 },
+  { id: 'tax',         label: '税金',       icon: '🏦', monthlyDefault: 10000 },
 ];
 
 /* ── 支払い方法（Layer 1） ── */
