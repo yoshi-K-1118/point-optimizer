@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend,
@@ -45,6 +45,10 @@ export default function Kakeibo() {
   const [incomes, setIncomes] = useLocalStorage('kakeibo-income', [
     { id: 1, categoryId: 'salary', label: '給与', amount: 300000 },
   ]);
+  // 数値入力中の文字列を別管理（タイピング中にリセットされないよう）
+  const [amountStrs, setAmountStrs] = useState(
+    () => Object.fromEntries(incomes.map(i => [i.id, String(i.amount)]))
+  );
 
   const totalExpense = useMemo(
     () => SPENDING_CATEGORIES.reduce((s, c) => s + Number(spending[c.id] || 0), 0),
@@ -68,15 +72,28 @@ export default function Kakeibo() {
   ];
 
   function addIncome() {
-    setIncomes([...incomes, { id: Date.now(), categoryId: 'salary', label: '', amount: 0 }]);
+    const newId = Date.now();
+    setIncomes([...incomes, { id: newId, categoryId: 'salary', label: '', amount: 0 }]);
+    setAmountStrs(prev => ({ ...prev, [newId]: '' }));
   }
 
-  function updateIncome(id, field, value) {
-    setIncomes(incomes.map(i => i.id === id ? { ...i, [field]: field === 'amount' ? Number(value) || 0 : value } : i));
+  function updateIncomeField(id, field, value) {
+    setIncomes(incomes.map(i => i.id === id ? { ...i, [field]: value } : i));
+  }
+
+  function handleAmountChange(id, str) {
+    setAmountStrs(prev => ({ ...prev, [id]: str }));
+  }
+
+  function handleAmountBlur(id, str) {
+    const num = Math.max(0, parseInt(str) || 0);
+    setAmountStrs(prev => ({ ...prev, [id]: String(num) }));
+    setIncomes(incomes.map(i => i.id === id ? { ...i, amount: num } : i));
   }
 
   function removeIncome(id) {
     setIncomes(incomes.filter(i => i.id !== id));
+    setAmountStrs(prev => { const s = { ...prev }; delete s[id]; return s; });
   }
 
   return (
@@ -131,7 +148,7 @@ export default function Kakeibo() {
               <div key={income.id} className="flex items-center gap-2">
                 <select
                   value={income.categoryId}
-                  onChange={e => updateIncome(income.id, 'categoryId', e.target.value)}
+                  onChange={e => updateIncomeField(income.id, 'categoryId', e.target.value)}
                   className="input text-xs py-1.5 w-28 flex-shrink-0"
                 >
                   {INCOME_CATEGORIES.map(c => (
@@ -142,14 +159,16 @@ export default function Kakeibo() {
                   type="text"
                   placeholder="内容"
                   value={income.label}
-                  onChange={e => updateIncome(income.id, 'label', e.target.value)}
+                  onChange={e => updateIncomeField(income.id, 'label', e.target.value)}
                   className="input text-xs py-1.5 flex-1 min-w-0"
                 />
                 <div className="relative flex-shrink-0 w-32">
                   <input
-                    type="number"
-                    value={income.amount || ''}
-                    onChange={e => updateIncome(income.id, 'amount', e.target.value)}
+                    type="text"
+                    inputMode="numeric"
+                    value={amountStrs[income.id] ?? ''}
+                    onChange={e => handleAmountChange(income.id, e.target.value)}
+                    onBlur={e => handleAmountBlur(income.id, e.target.value)}
                     className="input text-xs py-1.5 pr-6"
                     placeholder="0"
                   />
