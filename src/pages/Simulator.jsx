@@ -61,6 +61,15 @@ const POINTSITE_OPTIONS = [
   { id: 'gendama', label: 'げん玉',   rate: 0.015 },
 ];
 
+/* ── 旅行予約サイト（Layer 2 / 旅行・交通のみ） ── */
+const TRAVEL_BOOKING_OPTIONS = [
+  { id: 'none',           label: 'なし',           program: null,      rate: 0.000 },
+  { id: 'jalan',          label: 'じゃらんnet',     program: 'ponta',   rate: 0.010 },
+  { id: 'rakuten_travel', label: '楽天トラベル',     program: 'rakuten', rate: 0.010 },
+  { id: 'rurubu',         label: 'るるぶトラベル',  program: null,      rate: 0.005 },
+  { id: 'yahoo_travel',   label: 'Yahooトラベル',   program: 'paypay',  rate: 0.010 },
+];
+
 /* ── コンビニチェーン ── */
 const CONVENIENCE_STORES = [
   { id: 'seven',  label: 'セブン-イレブン',  icon: '🟠' },
@@ -174,7 +183,15 @@ function buildLayers(catId, stack) {
     layers.push({ label: loy.label, programId: loy.program, name: prog?.shortName ?? '', color: prog?.color ?? '#888', icon: prog?.icon ?? '🎫', rate: loyRate, type: 'loyalty' });
   }
 
-  if (catId === 'online' && site && site.id !== 'none' && site.rate > 0) {
+  if (catId === 'travel' && stack.booking) {
+    const booking = TRAVEL_BOOKING_OPTIONS.find(o => o.id === stack.booking);
+    if (booking && booking.id !== 'none' && booking.rate > 0) {
+      const prog = booking.program ? POINT_PROGRAMS.find(p => p.id === booking.program) : null;
+      layers.push({ label: booking.label, programId: booking.program ?? 'booking', name: prog?.shortName ?? '予約', color: prog?.color ?? '#f59e0b', icon: '🏨', rate: booking.rate, type: 'booking' });
+    }
+  }
+
+  if ((catId === 'online' || catId === 'travel') && site && site.id !== 'none' && site.rate > 0) {
     layers.push({ label: site.label, programId: 'site', name: 'サイト', color: '#7c3aed', icon: '🌐', rate: site.rate, type: 'site' });
   }
 
@@ -208,7 +225,9 @@ export default function Simulator() {
         ? { payment: 'smbc_card',   loyalty: 'none', site: 'none', store: 'seven' }
         : c.id === 'supermarket'
           ? { payment: 'aeon_card', loyalty: 'none', site: 'none', store: 'aeon' }
-          : { payment: 'rakuten_card', loyalty: 'none', site: 'none' },
+          : c.id === 'travel'
+            ? { payment: 'rakuten_card', loyalty: 'none', site: 'none', booking: 'none' }
+            : { payment: 'rakuten_card', loyalty: 'none', site: 'none' },
     ]))
   );
   const [months, setMonths] = useState(12);
@@ -285,16 +304,19 @@ export default function Simulator() {
   /* おすすめ組み合わせ (コンビニ・スーパー以外) */
   const bestCombos = useMemo(() =>
     SPENDING_CATEGORIES.filter(c => c.id !== 'convenience' && c.id !== 'supermarket').map(cat => {
-      let best = { rate: 0, payment: PAYMENT_OPTIONS[0], loyalty: LOYALTY_OPTIONS[0], site: POINTSITE_OPTIONS[0] };
-      const loyaltyCheck = (cat.id === 'online' || cat.id === 'insurance' || cat.id === 'tax' || cat.id === 'utility') ? [LOYALTY_OPTIONS[0]] : LOYALTY_OPTIONS;
-      const siteCheck = cat.id === 'online' ? POINTSITE_OPTIONS : [POINTSITE_OPTIONS[0]];
+      let best = { rate: 0, payment: PAYMENT_OPTIONS[0], loyalty: LOYALTY_OPTIONS[0], site: POINTSITE_OPTIONS[0], booking: TRAVEL_BOOKING_OPTIONS[0] };
+      const loyaltyCheck = (cat.id === 'online' || cat.id === 'travel' || cat.id === 'insurance' || cat.id === 'tax' || cat.id === 'utility') ? [LOYALTY_OPTIONS[0]] : LOYALTY_OPTIONS;
+      const siteCheck = (cat.id === 'online' || cat.id === 'travel') ? POINTSITE_OPTIONS : [POINTSITE_OPTIONS[0]];
+      const bookingCheck = cat.id === 'travel' ? TRAVEL_BOOKING_OPTIONS : [TRAVEL_BOOKING_OPTIONS[0]];
       PAYMENT_OPTIONS.forEach(pay =>
         loyaltyCheck.forEach(loy =>
-          siteCheck.forEach(site => {
-            const layers = buildLayers(cat.id, { payment: pay.id, loyalty: loy.id, site: site.id });
-            const rate = layers.reduce((s, l) => s + l.rate, 0);
-            if (rate > best.rate) best = { rate, payment: pay, loyalty: loy, site, layers };
-          })
+          siteCheck.forEach(site =>
+            bookingCheck.forEach(booking => {
+              const layers = buildLayers(cat.id, { payment: pay.id, loyalty: loy.id, site: site.id, booking: booking.id });
+              const rate = layers.reduce((s, l) => s + l.rate, 0);
+              if (rate > best.rate) best = { rate, payment: pay, loyalty: loy, site, booking, layers };
+            })
+          )
         )
       );
       return { cat, ...best };
@@ -319,7 +341,7 @@ export default function Simulator() {
     } else {
       const b = bestCombos.find(b => b.cat.id === catId);
       if (!b) return;
-      setStacks(prev => ({ ...prev, [catId]: { payment: b.payment.id, loyalty: b.loyalty.id, site: b.site.id } }));
+      setStacks(prev => ({ ...prev, [catId]: { ...prev[catId], payment: b.payment.id, loyalty: b.loyalty.id, site: b.site.id, booking: b.booking?.id ?? 'none' } }));
     }
   }
 
@@ -361,7 +383,7 @@ export default function Simulator() {
               {preset.icon} {preset.label}
             </button>
           ))}
-          <button onClick={() => { setSpending(Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, c.monthlyDefault]))); setStacks(Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, c.id === 'convenience' ? { payment: 'smbc_card', loyalty: 'none', site: 'none', store: 'seven' } : c.id === 'supermarket' ? { payment: 'aeon_card', loyalty: 'none', site: 'none', store: 'aeon' } : { payment: 'rakuten_card', loyalty: 'none', site: 'none' }]))); }}
+          <button onClick={() => { setSpending(Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, c.monthlyDefault]))); setStacks(Object.fromEntries(SPENDING_CATEGORIES.map(c => [c.id, c.id === 'convenience' ? { payment: 'smbc_card', loyalty: 'none', site: 'none', store: 'seven' } : c.id === 'supermarket' ? { payment: 'aeon_card', loyalty: 'none', site: 'none', store: 'aeon' } : c.id === 'travel' ? { payment: 'rakuten_card', loyalty: 'none', site: 'none', booking: 'none' } : { payment: 'rakuten_card', loyalty: 'none', site: 'none' }]))); }}
             className="flex items-center gap-1.5 px-3 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-100 rounded-xl text-sm text-gray-400 transition-all active:scale-95">
             <RotateCcw size={12} /> リセット
           </button>
@@ -471,8 +493,8 @@ export default function Simulator() {
                   </select>
                 </div>
 
-                {/* Layer 2: ポイントカード提示 (ネット通販・公共料金・保険・税金を除く) */}
-                {cat.id !== 'online' && cat.id !== 'utility' && cat.id !== 'insurance' && cat.id !== 'tax' && (
+                {/* Layer 2: ポイントカード提示 (ネット通販・旅行・公共料金・保険・税金を除く) */}
+                {cat.id !== 'online' && cat.id !== 'travel' && cat.id !== 'utility' && cat.id !== 'insurance' && cat.id !== 'tax' && (
                   <div>
                     <p className="text-[10px] text-gray-400 font-semibold mb-1">🎫 ポイントカード提示</p>
                     <select value={stacks[cat.id].loyalty}
@@ -485,8 +507,22 @@ export default function Simulator() {
                   </div>
                 )}
 
-                {/* Layer 3: ポイントサイト (online only) */}
-                {cat.id === 'online' && (
+                {/* Layer 2b: 予約サイト (旅行のみ) */}
+                {cat.id === 'travel' && (
+                  <div>
+                    <p className="text-[10px] text-gray-400 font-semibold mb-1">🏨 予約サイト</p>
+                    <select value={stacks[cat.id].booking ?? 'none'}
+                      onChange={e => updateStack(cat.id, 'booking', e.target.value)}
+                      className="input text-xs py-1.5">
+                      {TRAVEL_BOOKING_OPTIONS.map(o => (
+                        <option key={o.id} value={o.id}>{o.label}{o.rate > 0 ? ` (+${(o.rate * 100).toFixed(1)}%)` : ''}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {/* Layer 3: ポイントサイト (online・travel) */}
+                {(cat.id === 'online' || cat.id === 'travel') && (
                   <div>
                     <p className="text-[10px] text-gray-400 font-semibold mb-1">🌐 ポイントサイト経由</p>
                     <select value={stacks[cat.id].site}
