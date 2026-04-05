@@ -146,24 +146,15 @@ export default function Kakeibo() {
           <div className="space-y-3">
             {incomes.map(income => (
               <div key={income.id} className="space-y-1.5">
-                <div className="flex items-center gap-2">
-                  <select
-                    value={income.categoryId}
-                    onChange={e => updateIncomeField(income.id, 'categoryId', e.target.value)}
-                    className="input text-xs py-1.5 flex-shrink-0 w-28"
-                  >
-                    {INCOME_CATEGORIES.map(c => (
-                      <option key={c.id} value={c.id}>{c.icon} {c.label}</option>
-                    ))}
-                  </select>
-                  <input
-                    type="text"
-                    placeholder="内容"
-                    value={income.label}
-                    onChange={e => updateIncomeField(income.id, 'label', e.target.value)}
-                    className="input text-xs py-1.5 flex-1 min-w-0"
-                  />
-                </div>
+                <select
+                  value={income.categoryId}
+                  onChange={e => updateIncomeField(income.id, 'categoryId', e.target.value)}
+                  className="input text-xs py-1.5 w-full"
+                >
+                  {INCOME_CATEGORIES.map(c => (
+                    <option key={c.id} value={c.id}>{c.icon} {c.label}</option>
+                  ))}
+                </select>
                 <div className="flex items-center gap-2">
                   <div className="relative flex-1">
                     <input
