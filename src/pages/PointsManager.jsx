@@ -66,7 +66,18 @@ function PointCard({ program, pointData, onSave }) {
         {/* Header */}
         <div className="flex items-start justify-between gap-2 mb-3">
           <div className="flex items-center gap-2.5">
-            <span className="text-2xl leading-none">{program.icon}</span>
+            {program.url ? (
+              <img
+                src={`https://www.google.com/s2/favicons?domain=${new URL(program.url).hostname}&sz=64`}
+                alt={program.name}
+                width={28}
+                height={28}
+                className="rounded-md"
+                onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.insertAdjacentText('afterend', program.icon); }}
+              />
+            ) : (
+              <span className="text-2xl leading-none">{program.icon}</span>
+            )}
             <div>
               <p className="text-sm font-semibold text-gray-800">{program.name}</p>
               <p className="text-xs text-gray-400">{program.description}</p>
