@@ -11,6 +11,7 @@ const SERVICES = [
     id: 'rakuten',
     name: '楽天ポイント運用',
     icon: '🛒',
+    url: 'https://point.rakuten.co.jp/',
     color: '#bf0000',
     courses: [
       {
@@ -37,6 +38,7 @@ const SERVICES = [
     id: 'dpoint',
     name: 'dポイント投資',
     icon: '📱',
+    url: 'https://dpoint.jp/',
     color: '#e60012',
     courses: [
       {
@@ -81,6 +83,7 @@ const SERVICES = [
     id: 'ponta',
     name: 'Pontaポイント運用',
     icon: '🦝',
+    url: 'https://ponta.jp/',
     color: '#e8380d',
     courses: [
       {
@@ -116,6 +119,7 @@ const SERVICES = [
     id: 'paypay',
     name: 'PayPayポイント運用',
     icon: '💰',
+    url: 'https://paypay.ne.jp/',
     color: '#ff0033',
     courses: [
       {
@@ -277,7 +281,16 @@ export default function PointInvestSim() {
               }`}
               style={serviceId === s.id ? { background: s.color, borderColor: s.color } : {}}
             >
-              <span className="text-xl">{s.icon}</span>
+              {s.url ? (
+                <img
+                  src={`https://www.google.com/s2/favicons?domain=${new URL(s.url).hostname}&sz=64`}
+                  alt={s.name} width={24} height={24}
+                  className="rounded-md flex-shrink-0"
+                  onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.insertAdjacentText('afterend', s.icon); }}
+                />
+              ) : (
+                <span className="text-xl">{s.icon}</span>
+              )}
               <span className="leading-tight text-xs">{s.name}</span>
             </button>
           ))}
