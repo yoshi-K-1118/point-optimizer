@@ -9,6 +9,21 @@ const TABS = [
   { id: 'recommend', label: '用途別おすすめ', icon: Lightbulb },
 ];
 
+function CardFavicon({ card, size = 28 }) {
+  const prog = POINT_PROGRAMS.find(p => p.id === card.programId);
+  const domain = prog?.url ? new URL(prog.url).hostname : null;
+  if (!domain) return <span style={{ fontSize: size * 0.85 }}>{card.icon}</span>;
+  return (
+    <img
+      src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`}
+      alt={card.name}
+      width={size}
+      height={size}
+      onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.insertAdjacentText('afterend', card.icon); }}
+    />
+  );
+}
+
 // カード一覧用に CREDIT_CARDS と CREDIT_CARDS_DETAIL をマージ
 function mergedCards() {
   return CREDIT_CARDS
@@ -45,10 +60,10 @@ function CardItem({ card }) {
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex items-center gap-3">
             <div
-              className="w-11 h-11 rounded-xl flex items-center justify-center text-2xl flex-shrink-0 shadow-sm"
+              className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm overflow-hidden"
               style={{ backgroundColor: card.color + '18' }}
             >
-              {card.icon}
+              <CardFavicon card={card} size={28} />
             </div>
             <div>
               <h3 className="font-bold text-slate-800">{card.name}</h3>
@@ -243,7 +258,7 @@ function CompareTab() {
             <div className="p-3 bg-slate-50" />
             {compareCards.map((card) => (
               <div key={card.id} className="p-3 text-center border-l border-slate-100">
-                <div className="text-2xl mb-1">{card.icon}</div>
+                <div className="flex justify-center mb-1"><CardFavicon card={card} size={28} /></div>
                 <div className="font-bold text-sm text-slate-800 leading-tight">{card.name}</div>
               </div>
             ))}
@@ -390,10 +405,10 @@ function RecommendTab() {
               >
                 <div className="flex-shrink-0 flex flex-col items-center gap-1">
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shadow-sm"
+                    className="w-10 h-10 rounded-xl flex items-center justify-center shadow-sm overflow-hidden"
                     style={{ backgroundColor: card.color + '18' }}
                   >
-                    {card.icon}
+                    <CardFavicon card={card} size={26} />
                   </div>
                   {i === 0 && (
                     <span className="flex items-center gap-0.5 text-xs font-bold text-amber-500">

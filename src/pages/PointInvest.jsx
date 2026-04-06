@@ -129,9 +129,15 @@ function ProgramCard({ prog }) {
         {/* Header */}
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl flex items-center justify-center text-2xl flex-shrink-0 shadow-sm"
+            <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm overflow-hidden"
               style={{ backgroundColor: prog.color + '18' }}>
-              {prog.icon}
+              <img
+                src={`https://www.google.com/s2/favicons?domain=${new URL(prog.url).hostname}&sz=64`}
+                alt={prog.name}
+                width={28}
+                height={28}
+                onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement.textContent = prog.icon; }}
+              />
             </div>
             <div>
               <h3 className="font-bold text-slate-800">{prog.name}</h3>
