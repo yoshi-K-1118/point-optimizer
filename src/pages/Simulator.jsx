@@ -72,11 +72,11 @@ const TRAVEL_BOOKING_OPTIONS = [
 
 /* ── コンビニチェーン ── */
 const CONVENIENCE_STORES = [
-  { id: 'seven',  label: 'セブン-イレブン',  icon: '🟠' },
-  { id: 'family', label: 'ファミリーマート', icon: '🟢' },
-  { id: 'lawson', label: 'ローソン',          icon: '🔵' },
-  { id: 'mini',   label: 'ミニストップ',       icon: '🟡' },
-  { id: 'daily',  label: 'デイリーヤマザキ',   icon: '🔴' },
+  { id: 'seven',  label: 'セブン-イレブン',  icon: '🟠', url: 'https://www.sej.co.jp/' },
+  { id: 'family', label: 'ファミリーマート', icon: '🟢', url: 'https://www.family.co.jp/' },
+  { id: 'lawson', label: 'ローソン',          icon: '🔵', url: 'https://www.lawson.co.jp/' },
+  { id: 'mini',   label: 'ミニストップ',       icon: '🟡', url: 'https://www.ministop.co.jp/' },
+  { id: 'daily',  label: 'デイリーヤマザキ',   icon: '🔴', url: 'https://www.daily-yamazaki.co.jp/' },
 ];
 
 /* コンビニ別 支払い方法 還元率 (参考値) */
@@ -100,16 +100,16 @@ const STORE_LOYALTY_RATES = {
 
 /* ── スーパーチェーン ── */
 const SUPERMARKET_STORES = [
-  { id: 'aeon',       label: 'イオン/マックスバリュ', icon: '🔴' },
-  { id: 'itoyokado',  label: 'イトーヨーカドー',       icon: '🟠' },
-  { id: 'seiyu',      label: '西友',                   icon: '🔵' },
-  { id: 'life',       label: 'ライフ',                  icon: '🟢' },
-  { id: 'maruetsu',   label: 'マルエツ',                icon: '🟡' },
-  { id: 'yaoko',      label: 'ヤオコー',                icon: '🟤' },
-  { id: 'belc',       label: 'ベルク',                  icon: '🔶' },
-  { id: 'summit',     label: 'サミット',                icon: '⚫' },
-  { id: 'coop',       label: 'コープ/生協',             icon: '🟣' },
-  { id: 'ok',         label: 'オーケー',                icon: '🟩' },
+  { id: 'aeon',       label: 'イオン/マックスバリュ', icon: '🔴', url: 'https://www.aeon.co.jp/' },
+  { id: 'itoyokado',  label: 'イトーヨーカドー',       icon: '🟠', url: 'https://www.itoyokado.co.jp/' },
+  { id: 'seiyu',      label: '西友',                   icon: '🔵', url: 'https://www.seiyu.co.jp/' },
+  { id: 'life',       label: 'ライフ',                  icon: '🟢', url: 'https://www.lifecorp.jp/' },
+  { id: 'maruetsu',   label: 'マルエツ',                icon: '🟡', url: 'https://www.maruetsu.co.jp/' },
+  { id: 'yaoko',      label: 'ヤオコー',                icon: '🟤', url: 'https://www.yaoko-net.com/' },
+  { id: 'belc',       label: 'ベルク',                  icon: '🔶', url: 'https://www.belc.co.jp/' },
+  { id: 'summit',     label: 'サミット',                icon: '⚫', url: 'https://www.summitstore.co.jp/' },
+  { id: 'coop',       label: 'コープ/生協',             icon: '🟣', url: 'https://jccu.coop/' },
+  { id: 'ok',         label: 'オーケー',                icon: '🟩', url: 'https://www.ok-corporation.co.jp/' },
 ];
 
 /* スーパー別 支払い方法 還元率 (参考値) */
@@ -147,6 +147,32 @@ const PRESETS = [
   { label: 'ドライバー',  icon: '🚗', values: { convenience: 15000, supermarket: 25000, restaurant: 20000, online: 5000,  travel: 20000, gas: 30000, utility: 15000 } },
   { label: '外食多め',    icon: '🍜', values: { convenience: 8000,  supermarket: 10000, restaurant: 50000, online: 5000,  travel: 10000, gas: 5000,  utility: 15000 } },
 ];
+
+/* ── ファビコン表示ヘルパー ── */
+function StoreFavicon({ store, size = 20 }) {
+  if (!store.url) return <span style={{ fontSize: size }}>{store.icon}</span>;
+  return (
+    <img
+      src={`https://www.google.com/s2/favicons?domain=${new URL(store.url).hostname}&sz=64`}
+      alt={store.label} width={size} height={size}
+      className="rounded-sm flex-shrink-0"
+      onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.insertAdjacentText('afterend', store.icon); }}
+    />
+  );
+}
+
+function LayerFavicon({ layer, size = 14 }) {
+  const prog = POINT_PROGRAMS.find(p => p.id === layer.programId);
+  if (!prog?.url) return <span style={{ fontSize: size }}>{layer.icon}</span>;
+  return (
+    <img
+      src={`https://www.google.com/s2/favicons?domain=${new URL(prog.url).hostname}&sz=64`}
+      alt={prog.shortName ?? layer.name} width={size} height={size}
+      className="rounded-sm flex-shrink-0"
+      onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.insertAdjacentText('afterend', layer.icon); }}
+    />
+  );
+}
 
 /* ── ユーティリティ ── */
 function optionRate(option, catId) {
@@ -540,12 +566,12 @@ export default function Simulator() {
                   <div className="rounded-xl bg-white border border-gray-100 p-2.5 space-y-1.5">
                     {layers.map((layer, i) => (
                       <div key={i} className="flex items-center justify-between gap-2">
-                        <span className="flex items-center gap-1.5 text-[11px] text-gray-500 min-w-0 truncate">
-                          <span>{layer.icon}</span>
+                        <span className="flex items-center gap-1.5 text-xs text-gray-500 min-w-0 truncate">
+                          <LayerFavicon layer={layer} size={16} />
                           <span className="font-medium" style={{ color: layer.color }}>{layer.name}</span>
                           <span className="text-gray-300 truncate hidden sm:inline">{layer.label}</span>
                         </span>
-                        <span className="text-[11px] font-bold flex-shrink-0" style={{ color: layer.color }}>
+                        <span className="text-xs font-bold flex-shrink-0" style={{ color: layer.color }}>
                           +{(layer.rate * 100).toFixed(1)}%
                         </span>
                       </div>
@@ -664,23 +690,23 @@ export default function Simulator() {
                   ? 'bg-blue-50 border-blue-200'
                   : 'bg-gray-50 hover:bg-amber-50 border-gray-100 hover:border-amber-200'
               }`}>
-              <span className="text-xl mt-0.5">{store.icon}</span>
+              <StoreFavicon store={store} size={24} />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-semibold text-gray-700">{store.label}</span>
+                  <span className="text-sm font-semibold text-gray-700">{store.label}</span>
                   {layers.length >= 2 && (
-                    <span className="badge text-white text-[10px]"
+                    <span className="badge text-white text-xs"
                       style={{ backgroundColor: layers.length >= 3 ? '#7c3aed' : '#2563eb' }}>
                       {STACK_LABELS[Math.min(layers.length, 3)]}
                     </span>
                   )}
-                  <span className="ml-auto text-xs font-bold text-amber-600">{(rate * 100).toFixed(1)}%</span>
+                  <span className="ml-auto text-sm font-bold text-amber-600">{(rate * 100).toFixed(1)}%</span>
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {layers.map((l, i) => (
-                    <span key={i} className="flex items-center gap-0.5 text-[10px] px-1.5 py-0.5 rounded-md"
+                    <span key={i} className="flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-md"
                       style={{ backgroundColor: l.color + '18', color: l.color }}>
-                      {l.icon} {l.name} {(l.rate * 100).toFixed(1)}%
+                      <LayerFavicon layer={l} size={12} /> {l.name} {(l.rate * 100).toFixed(1)}%
                     </span>
                   ))}
                 </div>
@@ -705,23 +731,23 @@ export default function Simulator() {
                   ? 'bg-blue-50 border-blue-200'
                   : 'bg-gray-50 hover:bg-amber-50 border-gray-100 hover:border-amber-200'
               }`}>
-              <span className="text-xl mt-0.5">{store.icon}</span>
+              <StoreFavicon store={store} size={24} />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-semibold text-gray-700">{store.label}</span>
+                  <span className="text-sm font-semibold text-gray-700">{store.label}</span>
                   {layers.length >= 2 && (
-                    <span className="badge text-white text-[10px]"
+                    <span className="badge text-white text-xs"
                       style={{ backgroundColor: layers.length >= 3 ? '#7c3aed' : '#2563eb' }}>
                       {STACK_LABELS[Math.min(layers.length, 3)]}
                     </span>
                   )}
-                  <span className="ml-auto text-xs font-bold text-amber-600">{(rate * 100).toFixed(1)}%</span>
+                  <span className="ml-auto text-sm font-bold text-amber-600">{(rate * 100).toFixed(1)}%</span>
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {layers.map((l, i) => (
-                    <span key={i} className="flex items-center gap-0.5 text-[10px] px-1.5 py-0.5 rounded-md"
+                    <span key={i} className="flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-md"
                       style={{ backgroundColor: l.color + '18', color: l.color }}>
-                      {l.icon} {l.name} {(l.rate * 100).toFixed(1)}%
+                      <LayerFavicon layer={l} size={12} /> {l.name} {(l.rate * 100).toFixed(1)}%
                     </span>
                   ))}
                 </div>
@@ -742,23 +768,23 @@ export default function Simulator() {
           {bestCombos.map(({ cat, rate, layers }) => (
             <button key={cat.id} onClick={() => applyBest(cat.id)}
               className="flex items-start gap-3 p-3 rounded-xl bg-gray-50 hover:bg-amber-50 border border-gray-100 hover:border-amber-200 transition-all text-left active:scale-95">
-              <span className="text-xl mt-0.5">{cat.icon}</span>
+              <span className="text-2xl mt-0.5">{cat.icon}</span>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-semibold text-gray-700">{cat.label}</span>
+                  <span className="text-sm font-semibold text-gray-700">{cat.label}</span>
                   {layers.length >= 2 && (
-                    <span className="badge text-white text-[10px]"
+                    <span className="badge text-white text-xs"
                       style={{ backgroundColor: layers.length >= 3 ? '#7c3aed' : '#2563eb' }}>
                       {STACK_LABELS[Math.min(layers.length, 3)]}
                     </span>
                   )}
-                  <span className="ml-auto text-xs font-bold text-amber-600">{(rate * 100).toFixed(2)}%</span>
+                  <span className="ml-auto text-sm font-bold text-amber-600">{(rate * 100).toFixed(2)}%</span>
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {layers.map((l, i) => (
-                    <span key={i} className="flex items-center gap-0.5 text-[10px] px-1.5 py-0.5 rounded-md"
+                    <span key={i} className="flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-md"
                       style={{ backgroundColor: l.color + '18', color: l.color }}>
-                      {l.icon} {l.name} {(l.rate * 100).toFixed(1)}%
+                      <LayerFavicon layer={l} size={12} /> {l.name} {(l.rate * 100).toFixed(1)}%
                     </span>
                   ))}
                 </div>
