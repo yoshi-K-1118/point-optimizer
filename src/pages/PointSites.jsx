@@ -43,10 +43,16 @@ function SiteCard({ site }) {
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
             <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0 shadow-sm"
+              className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm overflow-hidden"
               style={{ backgroundColor: site.color + '20' }}
             >
-              {site.icon}
+              <img
+                src={`https://www.google.com/s2/favicons?domain=${new URL(site.url).hostname}&sz=64`}
+                alt={site.name}
+                width={28}
+                height={28}
+                onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement.textContent = site.icon; }}
+              />
             </div>
             <div className="min-w-0">
               <h3 className="font-bold text-slate-800 leading-tight">{site.name}</h3>
