@@ -129,13 +129,13 @@ export default function SurveySites() {
 
       {/* ヘッダー */}
       <div className="rounded-2xl px-6 py-5 shadow-lg relative overflow-hidden"
-           style={{ background: 'linear-gradient(135deg, #1a1a2e, #16213e)' }}>
+           style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)' }}>
         <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full opacity-10"
              style={{ background: 'radial-gradient(circle, white, transparent)' }} />
-        <h1 className="page-title text-white flex items-center gap-2">
+        <h1 className="page-title flex items-center gap-2" style={{ color: 'white' }}>
           <ClipboardList size={22} /> アンケートポイントサイト
         </h1>
-        <p className="text-white/70 text-sm mt-1">
+        <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.7)' }}>
           15年以上の運営実績を持つ信頼性の高いアンケートサイト一覧
         </p>
       </div>
