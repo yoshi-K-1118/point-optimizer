@@ -181,17 +181,19 @@ export default function SurveySites() {
                     </p>
                   </div>
                 </div>
-                <a
-                  href={site.affiliateUrl ?? site.url}
-                  target="_blank"
-                  rel="nofollow noopener noreferrer"
-                  className="flex-shrink-0 p-1.5 rounded-lg transition-colors"
-                  style={{ color: 'var(--color-text-muted)' }}
-                  onMouseEnter={e => { e.currentTarget.style.color = site.color; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
-                >
-                  <ExternalLink size={15} />
-                </a>
+                {!site.affiliateBanner && (
+                  <a
+                    href={site.affiliateUrl ?? site.url}
+                    target="_blank"
+                    rel="nofollow noopener noreferrer"
+                    className="flex-shrink-0 p-1.5 rounded-lg transition-colors"
+                    style={{ color: 'var(--color-text-muted)' }}
+                    onMouseEnter={e => { e.currentTarget.style.color = site.color; }}
+                    onMouseLeave={e => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
+                  >
+                    <ExternalLink size={15} />
+                  </a>
+                )}
               </div>
 
               {/* 説明 */}
