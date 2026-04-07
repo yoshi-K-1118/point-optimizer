@@ -36,10 +36,18 @@ export default function Campaigns() {
     return (
       <div className={`card p-4 flex gap-4 ${isExpired ? 'opacity-50' : ''}`}>
         <div
-          className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0"
+          className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 overflow-hidden"
           style={{ backgroundColor: (prog?.color ?? '#94a3b8') + '18' }}
         >
-          {prog?.icon}
+          {prog?.url ? (
+            <img
+              src={`https://www.google.com/s2/favicons?domain=${new URL(prog.url).hostname}&sz=64`}
+              alt={prog.shortName} width={30} height={30}
+              onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.insertAdjacentText('afterend', prog.icon); }}
+            />
+          ) : (
+            <span className="text-2xl">{prog?.icon}</span>
+          )}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 flex-wrap">
