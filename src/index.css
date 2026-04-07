@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  font-size: 120%;
   font-family: 'Noto Sans JP', 'Hiragino Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -145,7 +146,7 @@ html.dark .card-hover:hover {
   align-items: center;
   padding: 0.15rem 0.55rem;
   border-radius: 9999px;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 700;
   line-height: 1.4;
   letter-spacing: 0.02em;
@@ -154,7 +155,7 @@ html.dark .card-hover:hover {
 
 /* ── Typography ── */
 .section-title {
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: var(--color-text-muted);
   text-transform: uppercase;

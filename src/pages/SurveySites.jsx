@@ -4,6 +4,8 @@ const SURVEY_SITES = [
   {
     name: 'マクロミル',
     url: 'https://monitor.macromill.com/',
+    affiliateUrl: 'https://px.a8.net/svt/ejp?a8mat=4B1FHO+CI4HE+2WL0+BWVTE',
+    affiliatePixel: 'https://www10.a8.net/0.gif?a8mat=4B1FHO+CI4HE+2WL0+BWVTE',
     icon: '📊',
     color: '#e74c3c',
     since: 2000,
@@ -179,9 +181,9 @@ export default function SurveySites() {
                   </div>
                 </div>
                 <a
-                  href={site.url}
+                  href={site.affiliateUrl ?? site.url}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="nofollow noopener noreferrer"
                   className="flex-shrink-0 p-1.5 rounded-lg transition-colors"
                   style={{ color: 'var(--color-text-muted)' }}
                   onMouseEnter={e => { e.currentTarget.style.color = site.color; }}
@@ -222,6 +224,10 @@ export default function SurveySites() {
               <p className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
                 運営: {site.operator}
               </p>
+              {/* アフィリエイトトラッキングピクセル */}
+              {site.affiliatePixel && (
+                <img border="0" width="1" height="1" src={site.affiliatePixel} alt="" style={{ display: 'none' }} />
+              )}
             </div>
           </div>
         ))}
