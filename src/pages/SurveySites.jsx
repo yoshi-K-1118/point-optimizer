@@ -4,8 +4,9 @@ const SURVEY_SITES = [
   {
     name: 'マクロミル',
     url: 'https://monitor.macromill.com/',
-    affiliateUrl: 'https://px.a8.net/svt/ejp?a8mat=4B1FHO+CI4HE+2WL0+BWVTE',
-    affiliatePixel: 'https://www10.a8.net/0.gif?a8mat=4B1FHO+CI4HE+2WL0+BWVTE',
+    affiliateUrl: 'https://px.a8.net/svt/ejp?a8mat=4B1FHO+CI4HE+2WL0+CLYLD',
+    affiliateBanner: 'https://www25.a8.net/svt/bgt?aid=260407212021&wid=001&eno=01&mid=s00000013554002118000&mc=1',
+    affiliatePixel: 'https://www17.a8.net/0.gif?a8mat=4B1FHO+CI4HE+2WL0+CLYLD',
     icon: '📊',
     color: '#e74c3c',
     since: 2000,
@@ -224,6 +225,12 @@ export default function SurveySites() {
               <p className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
                 運営: {site.operator}
               </p>
+              {/* アフィリエイトバナー */}
+              {site.affiliateBanner && (
+                <a href={site.affiliateUrl} target="_blank" rel="nofollow noopener noreferrer">
+                  <img border="0" width="234" height="60" alt={site.name} src={site.affiliateBanner} className="rounded-md" />
+                </a>
+              )}
               {/* アフィリエイトトラッキングピクセル */}
               {site.affiliatePixel && (
                 <img border="0" width="1" height="1" src={site.affiliatePixel} alt="" style={{ display: 'none' }} />
