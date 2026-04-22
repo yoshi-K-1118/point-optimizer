@@ -70,5 +70,14 @@
     "multiplier": 5,
     "endDate": "2026-04-30",
     "url": "https://www.ponta.jp/c/campaign/sunlive_2604/?utm_source=pontaweb&utm_medium=optimizer&utm_campaign=sunlive_2604&vos=pppjpswpw042604010401260404001&dspn=3Z9J-IqMXREUDwMRLMq5c-d1xy22tsn3gdymx4K8XqAzk_r0gK6QG8aI8-KVqYA7O4c-titJvYCNie60UEBS7f_vQbvBrzMu-CEoyJb2Hus"
+  },
+  {
+    "id": 9,
+    "programId": "paypay",
+    "title": "PayPayポイント",
+    "description": "おこづかい10%増量キャンペーン(受け取り側)",
+    "multiplier": 1,
+    "endDate": "",
+    "url": "https://paypay.ne.jp/event/send-20241219/"
   }
 ]
